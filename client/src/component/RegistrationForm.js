@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import axios from '../commons/axios'
 import { baseURL } from '../commons/helper'
@@ -11,6 +11,7 @@ import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const RegistrationForm = () => {
     const [fullName, setFullName] = useState('');
+    const [nameError, setNameError] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -34,6 +35,9 @@ const RegistrationForm = () => {
     const [hasNumber, setHasNumber] = useState(false);
     const [hasSpecialChar, setHasSpecialChar] = useState(false);
     const [hasMinLength, setHasMinLength] = useState(false);
+    const [hkIdError, setHkIdError] = useState('');
+    const [emailError, setEmailError] = useState(null);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -124,6 +128,11 @@ const RegistrationForm = () => {
 
 
             }, 3000); // 3 seconds delay for demonstration purposes
+            setAgreedToTerms(false);
+
+            // Set isRegistering back to false after the registration process is completed
+            setIsRegistering(false);
+
 
         } catch (error) {
             console.error('Registration failed:', error.response.data);
@@ -202,6 +211,138 @@ const RegistrationForm = () => {
         setHasMinLength(password.length >= 8);
     }
 
+
+    const isHKID = (hkid) => {
+        const hkidPat = /^[A-Z]{1,2}[0-9]{6}([0-9A])$/;
+        let strValidChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+        // clean up the input string and convert to uppercase
+        hkid = hkid.toUpperCase().trim();
+
+        // check the pattern and the check digit
+        if (hkid.search(hkidPat) == -1) {
+            return false;
+        } else {
+            let hkidSub = hkid.substring(0, hkid.length - 1);
+            let intCheckDigit = hkid.substring(hkid.length - 1);
+
+            // calculate the check digit
+            let weight = 0;
+            let strHKID = hkidSub;
+            let startPos = 0;
+
+            // if hkid starts with two english letters
+            if (hkidSub.length == 8) {
+                strHKID = ' ' + hkidSub;
+                startPos = 1;
+            }
+
+            for (let i = startPos; i < 9; i++) {
+                let char = strHKID.substring(i, i + 1);
+                if (char <= '9' && char >= '0') { // numeric part
+                    weight += parseInt(char) * (9 - i);
+                } else { // English character part
+                    weight += (10 + strValidChars.indexOf(char)) * (9 - i);
+                }
+            }
+
+            let checkDigit = 11 - (weight % 11);
+
+            if (checkDigit == 11) {
+                checkDigit = '0';
+            } else if (checkDigit == 10) {
+                checkDigit = 'A';
+            }
+
+            // verify the check digit
+            if (checkDigit != intCheckDigit) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // use it in the onChange event
+    const handleChangeHKID = (e) => {
+        const newHKID = e.target.value;
+        sethkID(newHKID);
+        if (isHKID(newHKID)) {
+            // HKID is valid
+            setHkIdError(''); // Clear any error message
+        } else {
+            setHkIdError('HKID is not valid');
+        }
+    }
+
+    const isNameValid = (name) => {
+        const nameRegEx = /^[a-zA-Z\s]*$/; // Allows letters and whitespace only
+        if (!name) {
+            return "Full name is required.";
+        }
+        else if (!nameRegEx.test(name)) {
+            return "Full name can only contain letters and spaces.";
+        }
+        else if (name.length > 50) {
+            return "Full name can't exceed 50 characters.";
+        }
+        else if (name.split(" ").length < 2) {
+            return "Please enter both first and last name.";
+        }
+        return null; // Name is valid
+    };
+
+    const handleNameChange = (e) => {
+        const name = e.target.value;
+        setFullName(name);
+        setNameError(isNameValid(name));
+    };
+
+    const isEmailValid = (email) => {
+        const emailRegEx = /\S+@\S+\.\S+/; // Basic check for format "something@something.something"
+        if (!email) {
+            return "Email is required.";
+        }
+        else if (!emailRegEx.test(email)) {
+            return "Email is invalid.";
+        }
+        return null; // Email is valid
+    };
+
+    const handleEmailChange = (e) => {
+        const email = e.target.value;
+        setEmail(email);
+        setEmailError(isEmailValid(email));
+    };
+
+    // Get today's date
+    let today = new Date();
+    // Subtract 18 years
+    today.setFullYear(today.getFullYear() - 18);
+    // Convert the date to a string in the yyyy-mm-dd format
+    let initialDate = today.toISOString().split("T")[0];
+    // Set the initial value
+    // useEffect(() => {
+    //     setDateOfBirth(initialDate);
+    // }, []);
+
+    // Define the check
+    const isHKPhoneNumber = (phoneNumber) => {
+        const phoneNumberPattern = /^[0-9]{8}$/;
+        return phoneNumberPattern.test(phoneNumber);
+    };
+
+    // State for validity
+    const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
+
+    // Update handler
+    const handlePhoneNumberChange = (e) => {
+        setPhoneNumber(e.target.value);
+        setIsPhoneNumberValid(isHKPhoneNumber(e.target.value));
+    };
+
+
+
     return (
 
         <form className="registration-form box" onSubmit={handleSubmit}>
@@ -226,13 +367,14 @@ const RegistrationForm = () => {
                     <label className="label">HKID</label>
                     <div className="control">
                         <input
-                            className="input"
+                            className={`input ${hkIdError ? 'is-danger' : ''}`}
                             type="text"
                             placeholder="Enter your HKID ID"
                             value={hkID}
-                            onChange={(e) => sethkID(e.target.value)}
+                            onChange={(e) => { handleChangeHKID(e) }}
                             required
                         />
+                        {hkIdError && <p className="help is-danger">{hkIdError}</p>}
                     </div>
                 </div>
             </div>
@@ -245,9 +387,10 @@ const RegistrationForm = () => {
                             type="text"
                             placeholder="Enter your full name"
                             value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
+                            onChange={(e) => handleNameChange(e)}
                             required
                         />
+                        {nameError && <p>{nameError}</p>}
                     </div>
                 </div>
                 <div className="field column">
@@ -258,9 +401,10 @@ const RegistrationForm = () => {
                             type="email"
                             placeholder="Enter your email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => handleEmailChange(e)}
                             required
                         />
+                        {emailError && <p>{emailError}</p>}
                     </div>
                 </div>
 
@@ -269,7 +413,7 @@ const RegistrationForm = () => {
                 <div className="field column">
                     {/* <label className="label">Password</label> */}
                     <div className="field">
-                        <label className="label">Password1</label>
+                        <label className="label">Password</label>
                         <div className="control" style={{ position: 'relative' }}>
                             <input
                                 className="input"
@@ -356,6 +500,8 @@ const RegistrationForm = () => {
                             value={dateOfBirth}
                             onChange={(e) => setDateOfBirth(e.target.value)}
                             required
+                            // Min is 18 years ago, max is today
+                            max={initialDate}
                         />
                     </div>
                 </div>
@@ -378,13 +524,14 @@ const RegistrationForm = () => {
                     <label className="label">Phone Number</label>
                     <div className="control">
                         <input
-                            className="input"
+                            className={`input ${isPhoneNumberValid ? "" : "is-danger"}`}
                             type="tel"
                             placeholder="Enter your phone number"
                             value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            onChange={(e) => handlePhoneNumberChange(e)}
                             required
                         />
+                        {!isPhoneNumberValid && <p className="help is-danger">Invalid phone number</p>}
                     </div>
                 </div>
                 <div className="field column">

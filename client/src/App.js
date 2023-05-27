@@ -5,9 +5,13 @@ import NotFound from './page/NotFound';
 import ApplicationPage from './page/ApplicationPage';
 import RegistrationPage from './page/RegistrationPage';
 import LoginPage from './page/LoginPage';
-
+import ApplicationListPage from './page/ApplicationListPage';
+import ProtectedRoute from './component/ProtectedRoute';
 
 function App() {
+  const token = localStorage.getItem('auth-token');
+
+
   return (
     // <div className='App'>
     //   <HomePage></HomePage>
@@ -18,8 +22,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/application" element={<ApplicationPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          {!token && <Route path="/login" element={<LoginPage />} />}
           <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/application-list" element={<ProtectedRoute> <ApplicationListPage /> </ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

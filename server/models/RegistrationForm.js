@@ -4,7 +4,10 @@ const bcrypt = require('bcrypt');
 
 const registrationSchema = new Schema({
     fullName: { type: String, required: true },
-    email: { type: String, required: true },
+    email: {
+        type: String,
+        required: true
+    },
     password: { type: String, required: true },
     dateOfBirth: { type: Date, required: true },
     gender: { type: String, required: true },
@@ -13,8 +16,14 @@ const registrationSchema = new Schema({
     state: { type: String, required: true },
     position: { type: String, required: true },
     department: { type: String, required: true },
-    employeeID: { type: String, required: true },
-    hkID: { type: String, required: true },
+    employeeID: {
+        type: String,
+        required: true
+    },
+    hkID: {
+        type: String,
+        required: true
+    }
 });
 
 // Hash passwords before saving

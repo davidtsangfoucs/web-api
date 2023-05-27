@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { createAccount, getEmployee } = require("../controllers/Controller");
+const { createAccount, getEmployee, login, createApplication, getApplicationList } = require("../controllers/Controller");
 
 const router = Router()
 
@@ -7,6 +7,13 @@ const router = Router()
 // router.get('/', getProduct)
 router.post('/create-account', createAccount)
 router.get('/get-employees/:employeeID', getEmployee);
+
+// Login 
+router.post('/login', login);
+
+// application 
+router.post('/create-application', createApplication)
+router.get('/get-applicationList', getApplicationList)
 
 
 

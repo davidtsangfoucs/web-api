@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from '../commons/axios';
+import { baseURL } from '../commons/helper';
 // import './LoginForm.scss';
 
 const LoginForm = () => {
@@ -16,12 +18,31 @@ const LoginForm = () => {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Perform server-side validation and authentication
         if (emailAvailable && validatePassword(password)) {
-            // Proceed with login process
+            try {
+                const response = await axios.post(`${baseURL}/login`, {
+                    email: email,
+                    password: password
+                });
+
+                if (response.data.token) {
+                    // Save the token to localStorage or cookie
+                    localStorage.setItem('auth-token', response.data.token);
+                    localStorage.setItem('employeeID', response.data.employeeID);
+                    localStorage.setItem('position', response.data.position);
+                    // Redirect the user to dashboard or home page
+                    alert("Login sucessfully")
+                    window.location.reload();
+                } else {
+                    // Display appropriate error messages
+                }
+            } catch (error) {
+                console.log('Error:', error);
+            }
         } else {
             // Display appropriate error messages
         }

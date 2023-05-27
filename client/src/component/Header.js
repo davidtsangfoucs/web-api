@@ -1,7 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+// import jwt from 'jsonwebtoken';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
+    // Get the JWT token from local storage
+    // const token = localStorage.getItem('auth-token');
+    // const localEmployeeID = localStorage.getItem('employeeID');
+    // const localPosition = localStorage.getItem('position');
+
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [position, setPosition] = useState('');
+
+    useEffect(() => {
+        // Check if the user is logged in
+        const token = localStorage.getItem('auth-token');
+        setIsLoggedIn(!!token);
+
+        // Fetch the user's position
+        const userPosition = localStorage.getItem('position');
+        setPosition(userPosition);
+    }, []);
+
     return (
         <div className='header'>
             <nav class="navbar is-transparent">
@@ -62,12 +82,59 @@ const Header = () => {
                                                 <i class="fab fa-twitter"></i>
                                             </span>
                                             <span>
-                                                Registrar
+                                                Register
                                             </span>
                                         </a>
                                     </Link>
                                 </p>
-                                <p class="control">
+                                {
+                                    position === 'System admin1' && isLoggedIn && (
+                                        <p class="control">
+                                            <Link to="/application-list">
+                                                <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
+                                                    <span class="icon">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </span>
+                                                    <span>
+                                                        Application List
+                                                    </span>
+                                                </a>
+                                            </Link>
+                                        </p>
+                                    )
+                                }
+                                {
+                                    isLoggedIn ? (
+                                        <p className="control">
+                                            <button
+                                                className="button is-primary"
+                                                onClick={() => {
+                                                    localStorage.removeItem('auth-token'); // This will log out the user
+                                                    window.location.reload(); // This will refresh the page to reflect the change
+                                                }}
+                                            >
+                                                <span className="icon">
+                                                    <i className="fas fa-sign-out-alt"></i>
+                                                </span>
+                                                <span>Logout</span>
+                                            </button>
+                                        </p>
+                                    ) : (
+                                        <p className="control">
+                                            <Link to="/login">
+                                                <a className="button is-primary" href="https://github.com/jgthms/bulma/releases/download/0.9.4/bulma-0.9.4.zip">
+                                                    <span className="icon">
+                                                        <i className="fas fa-download"></i>
+                                                    </span>
+                                                    <span>Login</span>
+                                                </a>
+                                            </Link>
+                                        </p>
+                                    )
+                                }
+
+
+                                {/* <p class="control">
                                     <Link to="/login">
                                         <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
                                             <span class="icon">
@@ -79,17 +146,8 @@ const Header = () => {
                                         </a>
                                     </Link>
 
-                                </p>
-                                <p class="control">
-                                    <Link to="/login">
-                                        <a class="button is-primary" href="https://github.com/jgthms/bulma/releases/download/0.9.4/bulma-0.9.4.zip">
-                                            <span class="icon">
-                                                <i class="fas fa-download"></i>
-                                            </span>
-                                            <span>Login</span>
-                                        </a>
-                                    </Link>
-                                </p>
+                                </p> */}
+
                             </div>
                         </div>
                     </div>
