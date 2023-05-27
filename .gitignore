@@ -3,6 +3,7 @@
 # dependencies
 # .gitignore
 node_modules/
+/.eslintcache
 npm-debug.log
 .DS_Store
 dist/

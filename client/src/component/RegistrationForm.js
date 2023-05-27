@@ -269,7 +269,7 @@ const RegistrationForm = () => {
                 <div className="field column">
                     {/* <label className="label">Password</label> */}
                     <div className="field">
-                        <label className="label">Password11</label>
+                        <label className="label">Password1</label>
                         <div className="control" style={{ position: 'relative' }}>
                             <input
                                 className="input"
