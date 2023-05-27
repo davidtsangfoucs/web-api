@@ -2,7 +2,9 @@
 
 # dependencies
 # .gitignore
-node_modules/
+/node_modules
+/client/node_modules
+
 /.eslintcache
 npm-debug.log
 .DS_Store
