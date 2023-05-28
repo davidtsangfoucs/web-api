@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 // import jwt from 'jsonwebtoken';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const navigate = useNavigate(); // Declare this variable
+
     // Get the JWT token from local storage
     // const token = localStorage.getItem('auth-token');
     // const localEmployeeID = localStorage.getItem('employeeID');
@@ -22,13 +24,16 @@ const Header = () => {
         setPosition(userPosition);
     }, []);
 
+
     return (
         <div className='header'>
             <nav class="navbar is-transparent">
                 <div class="navbar-brand">
-                    <a class="navbar-item" href="/">
-                        <img src={require('../images/logo_tc.png')} alt="Bulma: a modern CSS framework based on Flexbox" />
-                    </a>
+                    <Link to="/">
+                        <a class="navbar-item" href="/">
+                            <img src={require('../images/logo_tc.png')} alt="Bulma: a modern CSS framework based on Flexbox" />
+                        </a>
+                    </Link>
                     <div class="navbar-burger" data-target="navbarExampleTransparentExample">
                         <span></span>
                         <span></span>
@@ -75,18 +80,22 @@ const Header = () => {
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="field is-grouped">
-                                <p class="control">
-                                    <Link to="/registration">
-                                        <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
-                                            <span class="icon">
-                                                <i class="fab fa-twitter"></i>
-                                            </span>
-                                            <span>
-                                                Register
-                                            </span>
-                                        </a>
-                                    </Link>
-                                </p>
+                                {
+                                    !isLoggedIn && (
+                                        <p class="control">
+                                            <Link to="/registration">
+                                                <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
+                                                    <span class="icon">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </span>
+                                                    <span>
+                                                        Register
+                                                    </span>
+                                                </a>
+                                            </Link>
+                                        </p>
+                                    )
+                                }
                                 {
                                     position === 'System admin1' && isLoggedIn && (
                                         <p class="control">
@@ -105,20 +114,27 @@ const Header = () => {
                                 }
                                 {
                                     isLoggedIn ? (
+
                                         <p className="control">
+                                            <a className='button'>  <span>{position}</span></a>
                                             <button
                                                 className="button is-primary"
                                                 onClick={() => {
                                                     localStorage.removeItem('auth-token'); // This will log out the user
+
+                                                    // Use the navigate function to navigate to home page
+                                                    navigate('/');
                                                     window.location.reload(); // This will refresh the page to reflect the change
                                                 }}
                                             >
                                                 <span className="icon">
                                                     <i className="fas fa-sign-out-alt"></i>
                                                 </span>
-                                                <span>Logout</span>
+                                                <span>Logout </span>
                                             </button>
+
                                         </p>
+
                                     ) : (
                                         <p className="control">
                                             <Link to="/login">

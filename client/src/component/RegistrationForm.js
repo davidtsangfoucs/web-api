@@ -347,16 +347,16 @@ const RegistrationForm = () => {
 
         <form className="registration-form box" onSubmit={handleSubmit}>
             <div>
-                <h1>Sign Up</h1>
+                {/* <h1>Sign Up</h1> */}
             </div>
             <div className="columns">
                 <div className="field column">
-                    <label className="label">Employee ID</label>
+                    <label className="label">Invitation ID</label>
                     <div className="control">
                         <input
                             className="input"
                             type="text"
-                            placeholder="Enter your employee ID"
+                            placeholder="Enter your Invitation ID"
                             value={employeeID}
                             onChange={(e) => setEmployeeID(e.target.value)}
                             required

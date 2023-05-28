@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
+import { useHistory, useNavigate } from 'react-router-dom';
 // import './LoginForm.scss';
 
 const LoginForm = () => {
+    const navigate = useNavigate(); // Declare this variable
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailAvailable, setEmailAvailable] = useState(true);
@@ -17,6 +20,10 @@ const LoginForm = () => {
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
+
+
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,8 +41,18 @@ const LoginForm = () => {
                     localStorage.setItem('auth-token', response.data.token);
                     localStorage.setItem('employeeID', response.data.employeeID);
                     localStorage.setItem('position', response.data.position);
+                    // set outo logout 
+                    // When you set user's login status
+
+                    // Then you can setup the auto-logout after 60 mins
+                    const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
+                    // Store the logoutTime in localStorage, so you can access it on page load
+                    localStorage.setItem('logoutTime', logoutTime.toString());
+
                     // Redirect the user to dashboard or home page
                     alert("Login sucessfully")
+                    // Use the navigate function to navigate to home page
+                    navigate('/');
                     window.location.reload();
                 } else {
                     // Display appropriate error messages

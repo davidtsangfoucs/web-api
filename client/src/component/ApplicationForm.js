@@ -15,6 +15,11 @@ const ApplicationForm = () => {
     const [timeSlot, setTimeSlot] = useState('');
     const [vaccineBrand, setVaccineBrand] = useState('');
     const [venue, setVenue] = useState('');
+    const [error, setError] = useState('');  // For displaying validation error messages
+
+    const englishNameIsValid = (name) => /^[a-zA-Z\s]*$/.test(name);
+    const chineseNameIsValid = (name) => /^[\u4e00-\u9fa5]*$/.test(name);
+    const dobIsValid = (date) => new Date(date) <= new Date(yesterday);
 
 
 
@@ -36,6 +41,22 @@ const ApplicationForm = () => {
     // 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!englishNameIsValid(englishName)) {
+            setError('Invalid English Name: It should contain only alphabets and space.');
+            return;
+        }
+
+        if (!chineseNameIsValid(chineseName)) {
+            setError('Invalid Chinese Name: It should contain only Chinese characters.');
+            return;
+        }
+
+        if (!dobIsValid(dob)) {
+            setError('Invalid Date of Birth: It cannot be a future date.');
+            return;
+        }
+
+        setError(''); // If all fields are valid, clear the error
 
         try {
             const response = await axios.post(`${baseURL}/create-application`, {
@@ -68,6 +89,7 @@ const ApplicationForm = () => {
     return (
         <div className='application-form'>
             <div className="container">
+                {error && <div className="notification is-danger">{error}</div>} {/* Display error */}
                 <form onSubmit={handleSubmit}>
                     <div className='columns'>
                         <div className="column">
@@ -129,8 +151,6 @@ const ApplicationForm = () => {
                                     />
                                 </div>
                             </div>
-
-
                             <div className="field">
                                 <label className="label">Venue</label>
                                 <div className="control">

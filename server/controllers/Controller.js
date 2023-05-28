@@ -56,7 +56,7 @@ module.exports.login = async (req, res) => {
     }
 
     // Create a token
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '5h' });
 
     // Send the token and user data in the response
     res.json({
