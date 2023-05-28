@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
 
 const applicationSchema = new Schema({
+    applicationId: { type: String, required: true },
     englishName: { type: String, required: true },
     chineseName: { type: String, required: true },
     gender: { type: String, required: true },

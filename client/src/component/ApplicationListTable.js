@@ -23,6 +23,7 @@ const ApplicationListTable = () => {
             <table className="table">
                 <thead>
                     <tr>
+                        <th>Application ID</th>
                         <th>English Name</th>
                         <th>Chinese Name</th>
                         <th>Gender</th>
@@ -38,6 +39,7 @@ const ApplicationListTable = () => {
                 <tbody>
                     {applicationData.map((application) => (
                         <tr key={application.id}>
+                            <td>{application.applicationId}</td>
                             <td>{application.englishName}</td>
                             <td>{application.chineseName}</td>
                             <td>{application.gender}</td>

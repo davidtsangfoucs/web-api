@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { addDays, format, subDays } from 'date-fns';
 import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
+import { useNavigate } from 'react-router-dom';
 
 const ApplicationForm = () => {
+    const navigate = useNavigate(); // Declare this variable
 
+    const [applicationCount, setApplicationCount] = useState(0);
     const [englishName, setEnglishName] = useState('');
     const [chineseName, setChineseName] = useState('');
     const [gender, setGender] = useState('');
@@ -38,6 +41,21 @@ const ApplicationForm = () => {
 
     const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
+    // // Function to generate the application ID
+    // const generateApplicationId = async () => {
+    //     const response = await axios.get(`${baseURL}/get-applicationList`);
+
+    //     const applicationList = response.data;
+    //     // Get the last application from the list
+    //     const lastApplication = applicationList[applicationList.length - 1];
+    //     // Extract the applicationId field from the last application
+    //     const applicationId = lastApplication.applicationId;
+
+    //     const paddedCount = applicationId + 1
+
+    //     return paddedCount;
+    // };
+
     // 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,9 +75,55 @@ const ApplicationForm = () => {
         }
 
         setError(''); // If all fields are valid, clear the error
+        let newId = '';
+
+        try {
+            const response = await axios.get(`${baseURL}/get-applicationList`);
+
+
+
+            if (response.data && response.data.length > 0) {
+                const applicationList = response.data;
+                // Get the last application from the list
+                const lastApplication = applicationList[applicationList.length - 1];
+                // Extract the applicationId field from the last application
+                const applicationId = lastApplication.applicationId;
+                // Assuming you have the current applicationId as "A0001"
+
+                // Extract the numerical portion of the application ID
+                const currentCount = parseInt(applicationId.slice(1)); // Parse the numeric part of the ID
+
+                // Increment the count
+                const newCount = currentCount + 1;
+
+                // Pad the count with leading zeros to maintain the desired format
+                const paddedCount = String(newCount).padStart(4, '0');
+
+                // Generate the new application ID
+                newId = `A${paddedCount}`;
+            } else {
+                newId = 'A0000';
+            }
+
+            // Rest of your code using the newId...
+        } catch (error) {
+            newId = 'A0000'
+            if (error.response && error.response.status === 404) {
+                // Handle the case when the application list endpoint returns a 404 status code
+                // Set a default value for newId or display an appropriate error message
+
+            } else {
+                // Handle other types of errors
+                console.error('An error occurred:', error);
+                // Optionally, set newId to a default value or handle the error in another way
+
+            }
+        }
+
 
         try {
             const response = await axios.post(`${baseURL}/create-application`, {
+                applicationId: newId,
                 englishName,
                 chineseName,
                 gender,
@@ -74,6 +138,7 @@ const ApplicationForm = () => {
 
             console.log('Application successful:', response.data);
             alert('Application successful!');
+            navigate('/');
             // Handle successful registration
         } catch (error) {
             console.error('Application failed:', error.response.data);

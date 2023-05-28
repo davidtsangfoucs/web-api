@@ -72,7 +72,9 @@ module.exports.login = async (req, res) => {
 
 // create applicaiton   
 module.exports.createApplication = async (req, res) => {
-  const { englishName,
+  const {
+    applicationId,
+    englishName,
     chineseName,
     gender,
     dob,
@@ -83,6 +85,7 @@ module.exports.createApplication = async (req, res) => {
     vaccineBrand,
     venue } = req.body
   ApplicationFormModel.create({
+    applicationId,
     englishName,
     chineseName,
     gender,
