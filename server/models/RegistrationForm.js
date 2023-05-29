@@ -9,7 +9,7 @@ const registrationSchema = new Schema({
         required: true
     },
     password: { type: String, required: true },
-    dateOfBirth: { type: Date, required: true },
+    dateOfBirth: { type: String, required: true },
     gender: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     address: { type: String, required: true },

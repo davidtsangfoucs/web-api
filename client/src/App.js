@@ -9,6 +9,7 @@ import ApplicationListPage from './page/ApplicationListPage';
 import ProtectedRoute from './component/ProtectedRoute';
 import { useEffect } from 'react';
 import AutoLogout from './component/AutoLogout';
+import ManageAccountsPage from './page/ManageAccountsPage';
 
 function App() {
   const token = localStorage.getItem('auth-token');
@@ -26,7 +27,8 @@ function App() {
           <Route path="/application" element={<><ApplicationPage /><AutoLogout /></>} />
           {!token && <Route path="/login" element={<LoginPage />} />}
           <Route path="/registration" element={<><RegistrationPage /><AutoLogout /></>} />
-          {token && position === 'System admin1' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && position === 'Medical staff' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && position === 'System admin' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

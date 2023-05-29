@@ -3,7 +3,7 @@ import { addDays, format, subDays } from 'date-fns';
 import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
 import { useNavigate } from 'react-router-dom';
-
+import Modal from 'react-modal';
 const ApplicationForm = () => {
     const navigate = useNavigate(); // Declare this variable
 
@@ -19,11 +19,11 @@ const ApplicationForm = () => {
     const [vaccineBrand, setVaccineBrand] = useState('');
     const [venue, setVenue] = useState('');
     const [error, setError] = useState('');  // For displaying validation error messages
-
+    const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false);
     const englishNameIsValid = (name) => /^[a-zA-Z\s]*$/.test(name);
     const chineseNameIsValid = (name) => /^[\u4e00-\u9fa5]*$/.test(name);
     const dobIsValid = (date) => new Date(date) <= new Date(yesterday);
-
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
 
 
 
@@ -326,10 +326,59 @@ const ApplicationForm = () => {
                             </div>
                         </div>
                     </div>
+                    {/* agreement tick  */}
+                    <div className="field">
+                        <div className="control">
+                            <label className="checkbox">
+                                <input
+                                    type="checkbox"
+                                    checked={agreedToTerms}
+                                    onChange={() => setAgreedToTerms(!agreedToTerms)}
+                                    required
+                                /> I understand and agree to the{' '}
+                                <span className="privacy-policy-link" onClick={() => setIsPrivacyPolicyOpen(true)}>
+                                    Privacy Policy
+                                </span>
+                                , terms of service, and acceptable use policy.
+                            </label>
+                        </div>
+                    </div>
+                    {/*  */}
+                    <Modal
+                        isOpen={isPrivacyPolicyOpen}
+                        onRequestClose={() => setIsPrivacyPolicyOpen(false)}
+                        contentLabel="Privacy Policy"
+                        className="modal1"
+                        overlayClassName="modal-overlay"
+                    >
+                        <div className="modal-header">
+                            <h2>Privacy Policy</h2>
+                            <button className="modal-close" onClick={() => setIsPrivacyPolicyOpen(false)}>
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div className="modal-content">
+                            <p>
+                                This is the content of the Privacy Policy. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam semper,
+                                neque ac varius venenatis, mauris velit bibendum urna, a malesuada est orci a tellus.
+                            </p>
+                            <p>Integer efficitur odio id
+                                efficitur pharetra. Aliquam at tristique ipsum. Aliquam feugiat ligula et semper tempus. Vivamus consectetur
+                                gravida ex non interdum. Donec facilisis sapien vitae lacinia pretium. Nam varius malesuada nisi, vitae fringilla
+                                ligula mattis nec. </p>
+                            <p>Cras ultrices nisl vel tortor convallis, sit amet egestas dolor vestibulum. Fusce faucibus
+                                arcu sem, id faucibus lacus tempus ut. Pellentesque habitant morbi tristique senectus et netus et malesuada
+                                fames ac turpis egestas. Integer dapibus tristique sapien, ut efficitur tortor finibus vel. Ut porttitor orci
+                                felis, a ultrices nisl finibus nec. Sed sagittis quam eu libero ullamcorper, non dapibus libero fringilla.</p>
+                            <p> In aliquam pretium tellus at facilisis. Proin fermentum bibendum lectus eu rhoncus. Suspendisse potenti.</p>
+                            {/* Include the rest of the Privacy Policy content here */}
+                        </div>
+
+                    </Modal>
 
                     <div className="field">
                         <div className="control">
-                            <button type="submit" className="button is-link">Submit</button>
+                            <button disabled={!agreedToTerms} type="submit" className="button is-link">Submit</button>
                         </div>
                     </div>
                 </form>

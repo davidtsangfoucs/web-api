@@ -120,3 +120,61 @@ module.exports.getApplicationList = async (req, res) => {
   }
 };
 
+
+// get registar acc from employee list to show in table 
+module.exports.getAccountsList = async (req, res) => {
+  try {
+    const accounts = await RegistrationFormModel.find();
+
+    if (accounts.length > 0) {
+      res.send(accounts);
+    } else {
+      res.status(404).json({ error: 'No accounts found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+
+module.exports.updateAccount = async (req, res) => {
+
+  const { fullName, email, dateOfBirth, gender, phoneNumber, address } = req.body;
+
+  try {
+    const updatedAccount = await RegistrationFormModel.findByIdAndUpdate(req.params.employeeID, {
+      fullName,
+      email,
+      dateOfBirth,
+      gender,
+      phoneNumber,
+      address
+    }, { new: true });
+
+    if (updatedAccount) {
+      res.send(updatedAccount);
+    } else {
+      res.status(404).json({ error: 'Account not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+module.exports.deleteAccount = async (req, res) => {
+
+  try {
+    const deletedAccount = await RegistrationFormModel.findByIdAndDelete(req.params.employeeID);
+
+    if (deletedAccount) {
+      res.send({ message: 'Account deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Account not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};

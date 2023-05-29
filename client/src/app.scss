@@ -196,3 +196,19 @@ $primary-color: #282c34;
   cursor: pointer;
   color: #363636;
 }
+
+.delete-box {
+  .confirm-delete-msg {
+    font-weight: 900;
+    color: red;
+    padding: 10px;
+    font-size: 20px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+}

@@ -58,19 +58,33 @@ const RegistrationForm = () => {
                 setDepartment(employee.department);
             }
             // Create an object with all the state fields
+
+            let emId = 'A000'
+            // Extract the numerical portion of the application ID
+            const currentCount = parseInt(emId.slice(1)); // Parse the numeric part of the ID
+
+            // Increment the count
+            const newCount = currentCount + 1;
+
+            // Pad the count with leading zeros to maintain the desired format
+            const paddedCount = String(newCount).padStart(4, '0');
+
+            // Generate the new application ID
+            const newId = `A${paddedCount}`;
+
             const RegisFormData = {
                 fullName,
                 email,
                 password,
                 confirmPassword,
-                dateOfBirth: new Date(dateOfBirth),
+                dateOfBirth: new Date(dateOfBirth).toISOString().substring(0, 10),
                 gender,
                 phoneNumber,
                 address,
                 state: "verification",
                 position: employee.position,
                 department: employee.department,
-                employeeID,
+                employeeID: newId,
                 hkID,
                 agreedToTerms,
                 isPrivacyPolicyOpen,
@@ -505,6 +519,7 @@ const RegistrationForm = () => {
                         />
                     </div>
                 </div>
+
                 <div className="field column">
                     <label className="label">Gender</label>
                     <div className="control">
