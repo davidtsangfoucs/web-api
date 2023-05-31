@@ -27,8 +27,8 @@ function App() {
           <Route path="/application" element={<><ApplicationPage /><AutoLogout /></>} />
           {!token && <Route path="/login" element={<LoginPage />} />}
           <Route path="/registration" element={<><RegistrationPage /><AutoLogout /></>} />
-          {token && position === 'Medical staff' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
-          {token && position === 'System admin' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && position === 'Medical staff'  && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && position === 'Lead System admin' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

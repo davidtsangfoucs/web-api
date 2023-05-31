@@ -138,11 +138,41 @@ const ManageAccountsTable = () => {
                                     application.fullName
                                 )}
                             </td>
-                            <td>{application.email}</td>
+                            <td>
+                                {editMode && editedData.accountId === application._id ? (
+                                    <input
+                                        type="email"
+                                        value={editedData.email || ''}
+                                        onChange={(event) => handleInputChange(event, 'email')}
+                                    />
+                                ) : (
+                                    application.email
+                                )}
+                            </td>
                             <td>{application.dateOfBirth}</td>
                             <td>{application.gender}</td>
-                            <td>{application.phoneNumber}</td>
-                            <td>{application.address}</td>
+                            <td>
+                                {editMode && editedData.accountId === application._id ? (
+                                    <input
+                                        type="text"
+                                        value={editedData.phoneNumber || ''}
+                                        onChange={(event) => handleInputChange(event, 'phoneNumber')}
+                                    />
+                                ) : (
+                                    application.phoneNumber
+                                )}
+                            </td>
+                            <td>
+                                {editMode && editedData.accountId === application._id ? (
+                                    <input
+                                        type="text"
+                                        value={editedData.address || ''}
+                                        onChange={(event) => handleInputChange(event, 'address')}
+                                    />
+                                ) : (
+                                    application.address
+                                )}
+                            </td>
                             <td>{application.state}</td>
                             <td>{application.position}</td>
                             <td>{application.department}</td>
@@ -183,4 +213,4 @@ const ManageAccountsTable = () => {
     );
 };
 
-export default ManageAccountsTable;
+export default ManageAccountsTable

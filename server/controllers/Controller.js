@@ -37,6 +37,7 @@ module.exports.createAccount = async (req, res) => {
 }
 
 // Login 
+// Login 
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -48,15 +49,40 @@ module.exports.login = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // If the user has failed to login more than 5 times
+    if (user.failedAttempts >= 5) {
+      // Check if 15 minutes have passed since the last failed attempt
+      const timeDiff = Date.now() - user.lastFailedAttempt;
+      // stop 15mins 
+      if (timeDiff < 15 * 60 * 1000) {
+        return res.status(400).json({ message: 'Too many failed attempts. Please try again later.' });
+
+        // stop 10s for demo
+        // if (timeDiff < 1 * 10 * 1000) {
+        //   return res.status(400).json({ message: 'Too many failed attempts. Please try again later.' });
+      } else {
+        // Reset the failed attempts if 15 minutes have passed
+        user.failedAttempts = 0;
+        await user.save();
+      }
+    }
+
     // Verify the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
+      user.failedAttempts += 1;
+      user.lastFailedAttempt = Date.now();
+      await user.save();
       return res.status(400).json({ message: 'Invalid password' });
     }
 
+    // If login is successful, reset failedAttempts
+    user.failedAttempts = 0;
+    await user.save();
+
     // Create a token
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '5h' });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Send the token and user data in the response
     res.json({
@@ -69,6 +95,7 @@ module.exports.login = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 // create applicaiton   
 module.exports.createApplication = async (req, res) => {

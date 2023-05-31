@@ -82,7 +82,7 @@ const Header = () => {
 
                             <div class="field is-grouped">
                                 {
-                                    position === 'System admin' && isLoggedIn && (
+                                    position === 'Lead System admin' && isLoggedIn && (
                                         <p class="control">
                                             <Link to="/manage-accounts">
                                                 <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
@@ -99,7 +99,7 @@ const Header = () => {
                                 }
 
                                 {
-                                    position === 'System admin' && isLoggedIn && (
+                                    position === 'Lead System admin' && isLoggedIn && (
                                         <p class="control">
                                             <Link to="/registration">
                                                 <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">

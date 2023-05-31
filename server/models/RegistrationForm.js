@@ -6,13 +6,14 @@ const registrationSchema = new Schema({
     fullName: { type: String, required: true },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: { type: String, required: true },
     dateOfBirth: { type: String, required: true },
     gender: { type: String, required: true },
     phoneNumber: { type: String, required: true },
-    address: { type: String, required: true },
+    address: { type: String },
     state: { type: String, required: true },
     position: { type: String, required: true },
     department: { type: String, required: true },
@@ -23,7 +24,17 @@ const registrationSchema = new Schema({
     hkID: {
         type: String,
         required: true
-    }
+    },
+    failedAttempts: {
+        type: Number,
+        required: true,
+        default: 0
+      },
+      lastFailedAttempt: {
+        type: Date,
+        required: true,
+        default: Date.now
+      }
 });
 
 // Hash passwords before saving

@@ -593,22 +593,30 @@ const RegistrationForm = () => {
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
-                <div className="modal-content">
-                    <p>
-                        This is the content of the Privacy Policy. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam semper,
-                        neque ac varius venenatis, mauris velit bibendum urna, a malesuada est orci a tellus.
+                <div className="modal-content" style={{ fontFamily: 'Arial', color: '#333', padding: '20px', lineHeight: '1.5' }}>
+                    {/* <h1 style={{ fontSize: '2em', marginBottom: '20px' }}>Privacy Policy</h1> */}
+                    <h2 style={{ fontSize: '1.5em', marginBottom: '10px' }}>Collection of Personal Information</h2>
+                    <p>The System will collect and store only necessary personal information for account creation and management, including but not limited to, names, contact details, and role-related information. This information will only be used for purposes directly related to managing the vaccination booking process and performing job duties.</p>
+
+                    <h2 style={{ fontSize: '1.5em', marginBottom: '10px' }}>Use of Personal Information</h2>
+                    <p>Personal information collected during account creation will be used solely for the purpose of user identification, system access, task assignment, audit trail creation, and to ensure secure communication within the System. Under no circumstances will personal information be shared with third parties outside the Department. </p>
+
+                    <h2 style={{ fontSize: '1.5em', marginBottom: '10px' }}>Access Control</h2>
+                    <p>Access to personal information within the System will be strictly controlled based on user roles. System Administrators will have broader access compared to Medical Staff. Users will only have access to personal information that is necessary for them to perform their specific job duties.</p>
+
+                    <h2 style={{ fontSize: '1.5em', marginBottom: '10px' }}>Responsibility and Compliance
+
+                    </h2>
+                    <p> System Administrators are responsible for ensuring compliance with this Privacy Policy. Any misuse or breach of this policy may lead to disciplinary action, up to and including termination of employment and <strong>legal action</strong>.
+
+                        By using the System, all Users agree to abide by this Privacy Policy. Users should ensure they understand their responsibilities under this policy and seek clarification from the Department's IT Manager or Data Protection Officer if necessary.
+
                     </p>
-                    <p>Integer efficitur odio id
-                        efficitur pharetra. Aliquam at tristique ipsum. Aliquam feugiat ligula et semper tempus. Vivamus consectetur
-                        gravida ex non interdum. Donec facilisis sapien vitae lacinia pretium. Nam varius malesuada nisi, vitae fringilla
-                        ligula mattis nec. </p>
-                    <p>Cras ultrices nisl vel tortor convallis, sit amet egestas dolor vestibulum. Fusce faucibus
-                        arcu sem, id faucibus lacus tempus ut. Pellentesque habitant morbi tristique senectus et netus et malesuada
-                        fames ac turpis egestas. Integer dapibus tristique sapien, ut efficitur tortor finibus vel. Ut porttitor orci
-                        felis, a ultrices nisl finibus nec. Sed sagittis quam eu libero ullamcorper, non dapibus libero fringilla.</p>
-                    <p> In aliquam pretium tellus at facilisis. Proin fermentum bibendum lectus eu rhoncus. Suspendisse potenti.</p>
+
                     {/* Include the rest of the Privacy Policy content here */}
                 </div>
+
+
 
             </Modal>
             <div className="field">
