@@ -492,12 +492,12 @@ const RegistrationForm = () => {
                                 }}
                                 required
                             />
-                            <button
+                            <a
                                 onClick={togglePasswordVisibility}
                                 className="icon is-small password-with-eye"
                             >
                                 <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} />
-                            </button>
+                            </a>
                         </div>
                         {!isPasswordMatching && <p>Passwords do not match</p>}
                     </div>
