@@ -15,7 +15,7 @@ const registrationSchema = new Schema({
     phoneNumber: { type: String, required: true },
     address: { type: String },
     state: { type: String, required: true },
-    position: { type: String, required: true },
+    premission: { type: String, required: true },
     department: { type: String, required: true },
     employeeID: {
         type: String,

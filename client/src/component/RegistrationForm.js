@@ -20,7 +20,7 @@ const RegistrationForm = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [address, setAddress] = useState('');
     const [state, setState] = useState('unVerification');
-    const [position, setPosition] = useState('1');
+    const [premission, setPremission] = useState('1');
     const [department, setDepartment] = useState('1');
     const [employeeID, setEmployeeID] = useState('');
     const [hkID, sethkID] = useState('');
@@ -37,7 +37,7 @@ const RegistrationForm = () => {
     const [hasMinLength, setHasMinLength] = useState(false);
     const [hkIdError, setHkIdError] = useState('');
     const [emailError, setEmailError] = useState(null);
-
+    const [role, setRole] = useState('public');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,58 +51,105 @@ const RegistrationForm = () => {
         // Set isRegistering to true to show loading state on the button
         setIsRegistering(true);
         try {
-            // get exployee data 
-            const employee = await getPositionAndDepartment(employeeID);
-            if (employee) {
-                setPosition(employee.position);
-                setDepartment(employee.department);
+            if (role !== "public") {
+                // get exployee data 
+                const employee = await getPremissionAndDepartment(employeeID);
+                if (employee) {
+                    setPremission(employee.premission);
+                    setDepartment(employee.department);
+                }
+                // Create an object with all the state fields
+
+                let emId = 'A000'
+                // Extract the numerical portion of the application ID
+                const currentCount = parseInt(emId.slice(1)); // Parse the numeric part of the ID
+
+                // Increment the count
+                const newCount = currentCount + 1;
+
+                // Pad the count with leading zeros to maintain the desired format
+                const paddedCount = String(newCount).padStart(4, '0');
+
+                // Generate the new application ID
+                const newId = `A${paddedCount}`;
+
+                const RegisFormData = {
+                    fullName,
+                    email,
+                    password,
+                    confirmPassword,
+                    dateOfBirth: new Date(dateOfBirth).toISOString().substring(0, 10),
+                    gender,
+                    phoneNumber,
+                    address,
+                    state: "verification",
+                    premission: employee.premission,
+                    department: employee.department,
+                    employeeID: newId,
+                    hkID,
+                    agreedToTerms,
+                    isPrivacyPolicyOpen,
+                    isRegistering
+                };
+
+
+                // Perform further registration validation and submission
+
+                // call API to create employee
+                await registerUser(RegisFormData);
+
+                // Simulating an API call delay with setTimeout
+
+            } else {
+
+                setPremission("Public User");
+                setDepartment("No Department");
+                let emId = 'A000'
+                // Extract the numerical portion of the application ID
+                const currentCount = parseInt(emId.slice(1)); // Parse the numeric part of the ID
+
+                // Increment the count
+                const newCount = currentCount + 1;
+
+                // Pad the count with leading zeros to maintain the desired format
+                const paddedCount = String(newCount).padStart(4, '0');
+
+                // Generate the new application ID
+                const newId = `A${paddedCount}`;
+
+                const RegisFormData = {
+                    fullName,
+                    email,
+                    password,
+                    confirmPassword,
+                    dateOfBirth: new Date(dateOfBirth).toISOString().substring(0, 10),
+                    gender,
+                    phoneNumber,
+                    address,
+                    state: "verification",
+                    premission: "Public User",
+                    department: "No Department",
+                    employeeID: newId,
+                    hkID,
+                    agreedToTerms,
+                    isPrivacyPolicyOpen,
+                    isRegistering
+                };
+
+
+                // Perform further registration validation and submission
+
+                // call API to create employee
+                await registerUser(RegisFormData);
+
+                // Simulating an API call delay with setTimeout
+
             }
-            // Create an object with all the state fields
-
-            let emId = 'A000'
-            // Extract the numerical portion of the application ID
-            const currentCount = parseInt(emId.slice(1)); // Parse the numeric part of the ID
-
-            // Increment the count
-            const newCount = currentCount + 1;
-
-            // Pad the count with leading zeros to maintain the desired format
-            const paddedCount = String(newCount).padStart(4, '0');
-
-            // Generate the new application ID
-            const newId = `A${paddedCount}`;
-
-            const RegisFormData = {
-                fullName,
-                email,
-                password,
-                confirmPassword,
-                dateOfBirth: new Date(dateOfBirth).toISOString().substring(0, 10),
-                gender,
-                phoneNumber,
-                address,
-                state: "verification",
-                position: employee.position,
-                department: employee.department,
-                employeeID: newId,
-                hkID,
-                agreedToTerms,
-                isPrivacyPolicyOpen,
-                isRegistering
-            };
-
-
-            // Perform further registration validation and submission
-
-            // call API to create employee
-            await registerUser(RegisFormData);
-
-            // Simulating an API call delay with setTimeout
 
 
         } catch (error) {
-            console.error('Error getting position and department:', error);
-            alert("Incorrect Employee ID")
+            console.error('Error getting premission and department:', error);
+            alert("Incorrect Sign Up Code")
             setIsRegistering(false);
         }
 
@@ -131,7 +178,7 @@ const RegistrationForm = () => {
                 setPhoneNumber('');
                 setAddress('');
                 setState('unVerification');
-                setPosition('');
+                setPremission('');
                 setDepartment('');
                 setEmployeeID('');
                 sethkID('');
@@ -162,7 +209,7 @@ const RegistrationForm = () => {
 
 
 
-    const getPositionAndDepartment = async (employeeID) => {
+    const getPremissionAndDepartment = async (employeeID) => {
         try {
             console.log('Making API request...'); // Add log here
             const response = await axios.get(`${baseURL}/get-employees/${employeeID}`);
@@ -180,14 +227,14 @@ const RegistrationForm = () => {
                 return response.data
 
 
-                // setPosition(employee.position);
+                // setPremission(employee.premission);
                 // setDepartment(employee.department);
 
             } else {
                 throw new Error('Error retrieving employee');
             }
         } catch (error) {
-            console.error('Error getting position and department:', error);
+            console.error('Error getting premission and department:', error);
             console.error('Error details:', error.response); // Log more error details
             throw error;
         }
@@ -363,20 +410,49 @@ const RegistrationForm = () => {
             <div>
                 {/* <h1>Sign Up</h1> */}
             </div>
-            <div className="columns">
-                <div className="field column">
-                    <label className="label">Invitation ID</label>
+            {/* <div className="columns"> */}
+            {/* <div className="field column">
+                    <label className="label">Sign Up Code</label>
                     <div className="control">
                         <input
                             className="input"
                             type="text"
-                            placeholder="Enter your Invitation ID"
+                            placeholder="Enter your Sign Up Code"
                             value={employeeID}
                             onChange={(e) => setEmployeeID(e.target.value)}
                             required
                         />
                     </div>
+                </div> */}
+            <div className="columns">
+                <div className="field column">
+                    <label className="label">Role</label>
+                    <div className="control">
+                        <select
+                            className="input"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                        >
+                            <option value="public">Public User</option>
+                            <option value="staff">Staff</option>
+                        </select>
+                    </div>
                 </div>
+                {role === 'staff' && (
+                    <div className="field column">
+                        <label className="label">Sign Up Code</label>
+                        <div className="control">
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="Enter your Sign Up Code"
+                                value={employeeID}
+                                onChange={(e) => setEmployeeID(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                )}
                 <div className="field column">
                     <label className="label">HKID</label>
                     <div className="control">

@@ -13,7 +13,7 @@ import ManageAccountsPage from './page/ManageAccountsPage';
 
 function App() {
   const token = localStorage.getItem('auth-token');
-  const position = localStorage.getItem('position');
+  const premission = localStorage.getItem('premission');
 
 
   return (
@@ -27,8 +27,8 @@ function App() {
           <Route path="/application" element={<><ApplicationPage /><AutoLogout /></>} />
           {!token && <Route path="/login" element={<LoginPage />} />}
           <Route path="/registration" element={<><RegistrationPage /><AutoLogout /></>} />
-          {token && position === 'Medical staff'  && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
-          {token && position === 'Lead System admin' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && premission === 'Admin'  && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && premission === 'Admin' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

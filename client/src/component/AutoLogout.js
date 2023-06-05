@@ -23,6 +23,7 @@ const AutoLogout = () => {
         }, 1000); // 1000 milliseconds = 1 second
 
         // Cleanup function to clear the interval when the component unmounts
+        clearInterval(intervalId);
         return () => {
             clearInterval(intervalId);
         };

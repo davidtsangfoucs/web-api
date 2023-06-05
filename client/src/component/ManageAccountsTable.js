@@ -112,7 +112,7 @@ const ManageAccountsTable = () => {
                         <th>Phone Number</th>
                         <th>Address</th>
                         <th>State</th>
-                        <th>Position</th>
+                        <th>Premission</th>
                         <th>Department</th>
                         <th>Employee ID</th>
                         <th>HK ID
@@ -174,7 +174,7 @@ const ManageAccountsTable = () => {
                                 )}
                             </td>
                             <td>{application.state}</td>
-                            <td>{application.position}</td>
+                            <td>{application.premission}</td>
                             <td>{application.department}</td>
                             <td>{application.employeeID}</td>
                             <td>

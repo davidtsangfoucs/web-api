@@ -25,10 +25,10 @@ module.exports.getEmployee = async (req, res) => {
 
 module.exports.createAccount = async (req, res) => {
   const { fullName, email, password, dateOfBirth, gender, phoneNumber, address, state
-    , position, department, employeeID, hkID } = req.body
+    , premission, department, employeeID, hkID } = req.body
   RegistrationFormModel.create({
     fullName, email, password, dateOfBirth, gender, phoneNumber, address, state
-    , position, department, employeeID, hkID
+    , premission, department, employeeID, hkID
   }).then((data) => {
     console.log("Added Successfully...");
     console.log(data);
@@ -87,7 +87,7 @@ module.exports.login = async (req, res) => {
     // Send the token and user data in the response
     res.json({
       token,
-      position: user.position,
+      premission: user.premission,
       employeeID: user.employeeID
     });
 

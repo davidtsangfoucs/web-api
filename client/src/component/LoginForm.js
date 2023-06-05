@@ -2,11 +2,60 @@ import React, { useState } from 'react';
 import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
 import { useHistory, useNavigate } from 'react-router-dom';
+import FacebookLogin from 'react-facebook-login';
 
 const LoginForm = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    // 
+    const [name, setName] = useState('');
+    const [birthday, setBirthday] = useState('');
+    const [fbCount, setFbCount] = useState(0);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
+
+    const responseFacebook = (response) => {
+
+        axios
+            .get(`https://graph.facebook.com/me?fields=name,email,picture&access_token=${response.accessToken}`)
+            .then((res) => {
+                console.log('res', res)
+                alert({ res })
+                // setName(res.data.name);
+                // setBirthday(res.data.birthday);
+                // setFbCount(res.data.friends.summary.total_count);
+                // setLoggedIn(true);
+                // setUserInfo(res.data);
+
+                // localStorage.setItem('userData', JSON.stringify(res.data));
+                localStorage.setItem('auth-token', true);
+                localStorage.setItem('premission', "Public User");
+                // need using facebook data to register the acc ? 
+
+                // yes
+
+
+
+
+
+                // navigate('/');
+
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
+    const logout = () => {
+        setName('');
+        setBirthday('');
+        setFbCount(0);
+        setLoggedIn(false);
+        localStorage.setItem('isLoggedIn', false);
+    };
+
+    //   
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -41,7 +90,7 @@ const LoginForm = () => {
             if (response.data.token) {
                 localStorage.setItem('auth-token', response.data.token);
                 localStorage.setItem('employeeID', response.data.employeeID);
-                localStorage.setItem('position', response.data.position);
+                localStorage.setItem('premission', response.data.premission);
                 // auto logout
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
                 // const logoutTime = Date.now() + 1 * 5 * 1000; // 5 s for demo
@@ -111,7 +160,17 @@ const LoginForm = () => {
                     </button>
                 </p>
             </div>
+            <FacebookLogin
+                cssClass="button login-button is-success"
+                appId="6453081621390258"
+                autoLoad={false}
+                fields="name,email,picture"
+                // scope="public_profile,user_gender,user_birthday,user_location,user_friends"
+                callback={responseFacebook}
+
+            />
         </form>
+
     );
 };
 

@@ -13,7 +13,7 @@ $primary-color: #282c34;
 
 .home-page {
   .container {
-    width: 900px;
+    width: 1200px;
 
   }
 
@@ -69,7 +69,7 @@ $primary-color: #282c34;
 
 // login
 .login-form {
-  margin-top: 7rem !important;
+  margin-top: 3rem !important;
   max-width: 500px;
   width: auto;
   height: auto;
@@ -211,4 +211,37 @@ $primary-color: #282c34;
     align-items: center;
     padding: 20px;
   }
+}
+
+// hero-bg
+
+.hero-bg {
+  padding-top: 3rem;
+
+  .hero-body {
+    background-image: url(./images/backgound/sad-cat-background.jpeg);
+    background-position: right;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  // background-image: url(./images/backgound/cat-bg7.png);
+  // background-position: right;
+  // background-size: cover;
+  // background-repeat: no-repeat;
+
+  .title {
+    color: #535353 !important;
+  }
+
+  .hero {
+    background-color: #f0f0f0 !important;
+  }
+
+  .your-help {
+    font-size: 61px;
+    color: #7abee9 !important;
+    font-weight: 700;
+  }
+
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from '../component/Header'
+import HeroBg from '../component/HeroBg'
 import LoginForm from '../component/LoginForm'
 
 const LoginPage = () => {
@@ -7,7 +8,7 @@ const LoginPage = () => {
         <div>
             <Header></Header>
             <div className="container">
-                <img src={require('../images/background.jpeg')}></img>
+                <HeroBg />
                 <LoginForm />
             </div>
         </div>
