@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { Link, useHistory, useNavigate } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
 import { GApiProvider } from 'react-gapi-auth2';
 import GoogleLogin from './GoogleLogin';
@@ -104,13 +104,7 @@ const LoginForm = () => {
         }
     };
 
-    const logout = () => {
-        setName('');
-        setBirthday('');
-        setFbCount(0);
-        setLoggedIn(false);
-        localStorage.setItem('isLoggedIn', false);
-    };
+
 
     //   
 
@@ -228,6 +222,16 @@ const LoginForm = () => {
 
             />
             <GoogleLogin></GoogleLogin>
+            <br></br>
+            <Link to="/registration">
+                <div className="field">
+                    <p className="control">
+                        <button type="submit" className="button is-success">
+                            Register
+                        </button>
+                    </p>
+                </div>
+            </Link>
         </form>
 
     );
