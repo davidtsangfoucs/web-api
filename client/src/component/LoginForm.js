@@ -3,6 +3,8 @@ import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
 import { useHistory, useNavigate } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
+import { GApiProvider } from 'react-gapi-auth2';
+import GoogleLogin from './GoogleLogin';
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -15,36 +17,91 @@ const LoginForm = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
 
-    const responseFacebook = (response) => {
+    const responseFacebook = async (response) => {
 
-        axios
-            .get(`https://graph.facebook.com/me?fields=name,email,picture&access_token=${response.accessToken}`)
-            .then((res) => {
-                console.log('res', res)
-                alert({ res })
-                // setName(res.data.name);
-                // setBirthday(res.data.birthday);
-                // setFbCount(res.data.friends.summary.total_count);
-                // setLoggedIn(true);
-                // setUserInfo(res.data);
+        try {
+            let RegisFormData = {};
+            let res = await axios.get(`https://graph.facebook.com/me?fields=name,email,picture,gender,birthday,location&access_token=${response.accessToken}`);
 
-                // localStorage.setItem('userData', JSON.stringify(res.data));
-                localStorage.setItem('auth-token', true);
+            console.log('res', res)
+
+            let responseCheckUser;
+            try {
+                responseCheckUser = await axios.get(`${baseURL}/get-employees-accounts/${res.data.id}`);
+            } catch (error) {
+                console.log('User not found:', error.message);
+                // Handle the case when the user is not found
+                // Set default values or take alternative actions
+            }
+
+            // Check if the response or response.data is undefined or the user does not exist
+            if (!responseCheckUser || !responseCheckUser.data) {
+                RegisFormData = {
+                    fullName: res.data.name,
+                    email: res.data.email,
+                    password: 'No password number',
+                    confirmPassword: 'No password number',
+                    dateOfBirth: res.data.birthday,
+                    gender: res.data.gender,
+                    phoneNumber: 'No phone number',
+                    address: 'No address number',
+                    state: "verification",
+                    premission: "Public User",
+                    department: "No Department",
+                    employeeID: res.data.id,
+                    hkID: 'No phone number',
+                };
+
+                // first time use facebook 
+                // give register acc
+                let registrationResponse = await registerUser(RegisFormData);
+
+                // Set the JWT to localStorage
+                localStorage.setItem('auth-token', registrationResponse.data.token);
                 localStorage.setItem('premission', "Public User");
-                // need using facebook data to register the acc ? 
 
-                // yes
+                navigate('/')
+
+            } else {
+                // have facebook acc already 
+                // give login state 
+                let UserData = responseCheckUser.data;
+                console.log("UserData", UserData)
+
+                // Since user already exists, the JWT should be in the response
+                // Set the JWT to localStorage
+                localStorage.setItem('auth-token', UserData.token);
+                localStorage.setItem('premission', UserData.employee.premission);
+
+                navigate('/')
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
 
 
-
-
-                // navigate('/');
-
-            })
-            .catch((err) => {
-                console.error(err);
+    const registerUser = async (RegisFormData) => {
+        try {
+            const response = await axios.post(`${baseURL}/create-account`, {
+                // Include other registration data as needed
+                ...RegisFormData
             });
+
+            console.log('Registration successful:', response.data);
+            alert('Registration successful!');
+            // Handle successful registration
+
+            // Set isRegistering back to false after the registration process is completed
+            // setIsRegistering(false);
+
+
+        } catch (error) {
+            console.error('Registration failed:', error.response.data);
+            alert('Registration failed!');
+            // Handle registration failure
+        }
     };
 
     const logout = () => {
@@ -121,6 +178,7 @@ const LoginForm = () => {
         return passwordRegex.test(password);
     };
 
+
     return (
         <form className="login-form box" onSubmit={handleSubmit}>
             <div className="field">
@@ -169,6 +227,7 @@ const LoginForm = () => {
                 callback={responseFacebook}
 
             />
+            <GoogleLogin></GoogleLogin>
         </form>
 
     );

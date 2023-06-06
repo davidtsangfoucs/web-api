@@ -1,7 +1,9 @@
 const { Router } = require("express");
-const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount } = require("../controllers/Controller");
+const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount, getRegisterAcc } = require("../controllers/Controller");
 
 const router = Router()
+
+
 
 // Registaration Form
 // router.get('/', getProduct)
@@ -16,6 +18,7 @@ router.post('/create-application', createApplication)
 router.get('/get-applicationList', getApplicationList)
 
 // get registration staff table
+router.get('/get-employees-accounts/:employeeID', getRegisterAcc);
 router.get('/get-employees-accounts', getAccountsList)
 router.put('/update-employees-accounts/:employeeID', updateAccount);
 router.delete('/delete-employees-accounts/:employeeID', deleteAccount);

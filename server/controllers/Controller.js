@@ -205,3 +205,34 @@ module.exports.deleteAccount = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
+// found register acc base on employeeID
+module.exports.getRegisterAcc = async (req, res) => {
+  const { employeeID } = req.params;
+
+  try {
+    const employee = await RegistrationFormModel.findOne({ employeeID });
+
+    if (employee) {
+      // Create a payload for the token
+      const payload = {
+        employeeID: employee.employeeID,
+        fullName: employee.fullName,
+        premission: employee.premission,
+        // add any other employee data that you want included in the JWT
+      };
+
+      // Sign the token
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      // Send the token and employee data in the response
+      res.json({ token, employee });
+    } else {
+      res.status(404).json({ error: 'Employee not found' });
+    }
+  } catch (error) {
+    console.error(error);  // log the error to console  
+    res.status(500).json({ error: 'Server error' });
+  }
+};
