@@ -3,6 +3,7 @@ const ApplicationFormModel = require('../models/ApplicationForm')
 const Employee = require('../models/Employee')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Cat = require('../models/CatSchema'); // Path to your Cat model file
 
 // found employee base on employeeID
 module.exports.getEmployee = async (req, res) => {
@@ -259,3 +260,17 @@ module.exports.verifyIdToken = async (req, res) => {
     res.json({ verified: false });
   }
 }
+
+
+// get cats 
+
+module.exports.getCats = async (req, res) => {
+  try {
+    const cats = await Cat.find();
+    res.json(cats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+

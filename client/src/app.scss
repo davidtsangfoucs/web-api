@@ -13,7 +13,7 @@ $primary-color: #282c34;
 
 .home-page {
   .container {
-    width: 1200px;
+    max-width: 1200px;
 
   }
 
@@ -249,4 +249,61 @@ $primary-color: #282c34;
 
 .S9gUrf-YoZ4jf {
   margin-top: 25px;
+}
+
+
+// cat product page 
+.cat-product {
+  .container {
+    margin-top: 70px;
+  }
+}
+
+// CatProduct.scss
+
+// CatProduct.scss
+
+// CatProduct.scss
+
+// CatProduct.scss
+
+.cat-product {
+  .container {
+    .columns {
+      .column {
+        .card {
+          .card-image {
+            .image {
+              img {
+                object-fit: cover;
+                height: 100%;
+              }
+            }
+          }
+
+          .card-content {
+            .media {
+              .media-content {
+                .title {
+                  font-size: 1rem;
+                  font-weight: bold;
+                }
+
+                .subtitle {
+                  font-size: 0.875rem;
+                  color: gray;
+                }
+              }
+            }
+
+            .content {
+              font-size: 0.875rem;
+              height: 100px; // Define a height for the content area
+              overflow-y: auto; // Allow vertical scrolling if the content overflows
+            }
+          }
+        }
+      }
+    }
+  }
 }

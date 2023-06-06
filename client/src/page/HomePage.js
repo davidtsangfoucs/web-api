@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import CatProduct from '../component/CatProduct'
 import Header from '../component/Header'
 import HeroBg from '../component/HeroBg'
 
@@ -16,6 +17,7 @@ const HomePage = () => {
             <button class="button is-primary is-large">開始預約</button>
           </Link>
         </div> */}
+        <CatProduct></CatProduct>
       </div>
 
 
