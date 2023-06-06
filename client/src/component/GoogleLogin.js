@@ -3,28 +3,7 @@ import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
 import jwt_decode from "jwt-decode"
 import { useNavigate } from 'react-router-dom';
-// async function fetchUserProfile(idToken) {
-//     try {
-//         const response = await axios.get('https://people.googleapis.com/v1/people/me', {
-//             params: {
-//                 personFields: 'names',
-//             },
-//             headers: {
-//                 Authorization: `Bearer ${idToken}`,
-//             },
-//         });
 
-//         // Extract the desired information from the response
-//         const email = response.data.emailAddresses[0].value;
-//         const gender = response.data.genders[0].value;
-//         const name = response.data.names[0].displayName;
-
-//         return { email, gender, name };
-//     } catch (error) {
-//         console.error('Failed to fetch user profile:', error);
-//         throw error;
-//     }
-// }
 
 function GoogleLogin() {
     const navigate = useNavigate();
@@ -34,6 +13,15 @@ function GoogleLogin() {
         var userObject = jwt_decode(response.credential);
         console.log("userObject", userObject);
         try {
+            // Send a request to your server to verify the token
+            const verificationResponse = await axios.post(`${baseURL}/verify-id-token`, {
+                idToken: response.credential,
+            });
+
+            // Check if the token is verified
+            if (!verificationResponse.data.verified) {
+                throw new Error('Token verification failed');
+            }
 
             let RegisFormData = {};
             let responseCheckUser;

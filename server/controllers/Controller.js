@@ -236,3 +236,26 @@ module.exports.getRegisterAcc = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+
+// auth form google 
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client("1061523075573-n537pria7u9k24et8osc54cop29krk3c.apps.googleusercontent.com");
+
+module.exports.verifyIdToken = async (req, res) => {
+  const token = req.body.idToken;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: "1061523075573-n537pria7u9k24et8osc54cop29krk3c.apps.googleusercontent.com",  // Specify the CLIENT_ID of the app that accesses the backend
+    });
+    const payload = ticket.getPayload();
+
+    // Do whatever you want with the user information in payload
+
+    res.json({ verified: true });
+  } catch (e) {
+    res.json({ verified: false });
+  }
+}
