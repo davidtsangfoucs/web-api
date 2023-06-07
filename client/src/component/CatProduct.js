@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../commons/axios';
-
+import SearchBar from './SearchBar';
 
 const CatProduct = () => {
     const [cats, setCats] = useState([]);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         axios.get('/get-cats')
@@ -15,11 +16,27 @@ const CatProduct = () => {
             });
     }, []);
 
+    const filteredCats = search
+        ? cats.filter(cat =>
+            cat.name.toLowerCase().includes(search.toLowerCase()) ||
+            cat.breed.toLowerCase().includes(search.toLowerCase())
+            // cat.description.toLowerCase().includes(search.toLowerCase())
+        )
+        : cats;
+
     return (
         <div className="cat-product">
             <div className="container">
+                <div className='columns'>
+
+                    <SearchBar search={search} setSearch={setSearch} />
+
+                
+                </div>
+
+
                 <div className='columns is-multiline is-mobile'>
-                    {cats.map((cat) => (
+                    {filteredCats.map((cat) => (
                         <div className="column is-full-mobile is-half-tablet is-one-third-desktop is-one-quarter-widescreen" key={cat.id}>
                             <div className="card">
                                 <div className="card-image">

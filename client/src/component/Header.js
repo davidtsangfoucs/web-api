@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import jwt from 'jsonwebtoken';
 import { Link, useNavigate } from 'react-router-dom';
+import UseAuth from './UseAuth';
 
 const Header = () => {
     const navigate = useNavigate(); // Declare this variable
@@ -10,20 +11,8 @@ const Header = () => {
     // const localEmployeeID = localStorage.getItem('employeeID');
     // const localPremission = localStorage.getItem('premission');
 
+    const { isLoggedIn, premission } = UseAuth();
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [premission, setPremission] = useState('');
-
-    useEffect(() => {
-        // Check if the user is logged in
-        const token = localStorage.getItem('auth-token');
-        setIsLoggedIn(!!token);
-
-        // Fetch the user's premission
-        const userPremission = localStorage.getItem('premission');
-        setPremission(userPremission);
-    }, []);
-    
 
     return (
         <div className='header'>

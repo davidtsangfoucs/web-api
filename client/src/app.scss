@@ -259,16 +259,33 @@ $primary-color: #282c34;
   }
 }
 
-// CatProduct.scss
-
-// CatProduct.scss
-
-// CatProduct.scss
-
-// CatProduct.scss
-
 .cat-product {
   .container {
+    .dis-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .has-icons-right {
+      width: 100%;
+    }
+
+    .is-expanded {
+      width: 100%;
+    }
+
+    .control {
+      display: flex;
+      align-items: center;
+    }
+
+    .icon {
+      position: absolute;
+      right: 20px;
+    }
+
     .columns {
       .column {
         .card {
@@ -304,6 +321,29 @@ $primary-color: #282c34;
           }
         }
       }
+    }
+  }
+}
+
+
+
+.margin-left-2rem {
+  margin-left: 2rem
+}
+
+
+
+
+// add cat page css 
+
+.add-cat {
+
+  .container {
+    max-width: 1200px;
+    padding: 30px;
+
+    .dis-flex {
+      display: flex;
     }
   }
 }

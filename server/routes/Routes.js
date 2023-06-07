@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount, getRegisterAcc, verifyIdToken, getCats } = require("../controllers/Controller");
+const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount, getRegisterAcc, verifyIdToken, getCats, addCat } = require("../controllers/Controller");
 
 const router = Router()
 
@@ -28,5 +28,6 @@ router.post('/verify-id-token', verifyIdToken);
 
 // get cat 
 router.get('/get-cats', getCats);
+router.post('/add-cat', addCat);
 
 module.exports = router;

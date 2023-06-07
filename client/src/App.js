@@ -3,6 +3,7 @@ import './app.scss'
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import NotFound from './page/NotFound';
 import ApplicationPage from './page/ApplicationPage';
+import AddCat from './page/AddCat';
 import RegistrationPage from './page/RegistrationPage';
 import LoginPage from './page/LoginPage';
 import ApplicationListPage from './page/ApplicationListPage';
@@ -25,9 +26,10 @@ function App() {
         <Routes>
           <Route path="/" element={<><HomePage /><AutoLogout /></>} />
           <Route path="/application" element={<><ApplicationPage /><AutoLogout /></>} />
+          {token && premission === 'Admin' && <Route path="/add-cat" element={<><AddCat /><AutoLogout /></>} />}
           {!token && <Route path="/login" element={<LoginPage />} />}
           <Route path="/registration" element={<><RegistrationPage /><AutoLogout /></>} />
-          {token && premission === 'Admin'  && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && premission === 'Admin' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
           {token && premission === 'Admin' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
           <Route path="*" element={<NotFound />} />
         </Routes>

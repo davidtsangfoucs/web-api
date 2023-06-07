@@ -274,3 +274,25 @@ module.exports.getCats = async (req, res) => {
 };
 
 
+module.exports.addCat = async (req, res) => {
+  try {
+    const newCat = new Cat({
+      name: req.body.name,
+      breed: req.body.breed,
+      age: req.body.age,
+      ageUnit: req.body.ageUnit,
+      description: req.body.description,
+      location: req.body.location,
+      image: req.body.image
+    });
+
+    let cat = await newCat.save();
+
+    if (!cat) throw Error('Something went wrong saving the cat');
+
+    res.status(200).json(cat);
+  } catch (err) {
+    res.status(400).json({ msg: err });
+  }
+};
+
