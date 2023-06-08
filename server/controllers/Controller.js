@@ -26,10 +26,10 @@ module.exports.getEmployee = async (req, res) => {
 
 module.exports.createAccount = async (req, res) => {
   const { fullName, email, password, dateOfBirth, gender, phoneNumber, address, state
-    , premission, department, employeeID, hkID } = req.body
+    , premission, department, employeeID, hkID, cartNum } = req.body
   RegistrationFormModel.create({
     fullName, email, password, dateOfBirth, gender, phoneNumber, address, state
-    , premission, department, employeeID, hkID
+    , premission, department, employeeID, hkID, cartNum
   }).then((data) => {
     console.log("Added Successfully...");
     console.log(data);
@@ -168,16 +168,17 @@ module.exports.getAccountsList = async (req, res) => {
 
 module.exports.updateAccount = async (req, res) => {
 
-  const { fullName, email, dateOfBirth, gender, phoneNumber, address } = req.body;
+  const { fullName, email, dateOfBirth, gender, phoneNumber, address, cartNum } = req.body;
 
   try {
-    const updatedAccount = await RegistrationFormModel.findByIdAndUpdate(req.params.employeeID, {
+    const updatedAccount = await RegistrationFormModel.findByIdAndUpdate(req.params.objID, {
       fullName,
       email,
       dateOfBirth,
       gender,
       phoneNumber,
-      address
+      address,
+      cartNum
     }, { new: true });
 
     if (updatedAccount) {

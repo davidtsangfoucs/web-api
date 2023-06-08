@@ -7,6 +7,9 @@ const AutoLogout = () => {
     const logoutUser = () => {
         // Remove the auth token
         localStorage.removeItem('auth-token');
+        localStorage.removeItem('premission');
+        localStorage.removeItem('user-id');
+        localStorage.removeItem('obj-id');
         // Optionally, redirect the user to the login page
         alert('You have been logged out due to inactivity.');
         navigate('/login');

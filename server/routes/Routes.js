@@ -20,7 +20,8 @@ router.get('/get-applicationList', getApplicationList)
 // get registration staff table
 router.get('/get-employees-accounts/:employeeID', getRegisterAcc);
 router.get('/get-employees-accounts', getAccountsList)
-router.put('/update-employees-accounts/:employeeID', updateAccount);
+// get by objId id
+router.put('/update-employees-accounts/:objID', updateAccount);
 router.delete('/delete-employees-accounts/:employeeID', deleteAccount);
 
 // Add new endpoint for token verification
@@ -31,5 +32,9 @@ router.get('/get-cats', getCats);
 router.post('/add-cat', addCat);
 router.put('/update-cats/:catId', updateCat);
 router.delete('/delete-cats/:catId', deleteCat);
+
+// cartNum
+
+
 
 module.exports = router;

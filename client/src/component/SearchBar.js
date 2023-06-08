@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import UseAuth from './UseAuth';
 
-const SearchBar = ({ search, setSearch }) => {
+const SearchBar = ({ search, setSearch, cartNum }) => {
     const handleSearch = event => {
         setSearch(event.target.value);
     };
@@ -30,6 +30,13 @@ const SearchBar = ({ search, setSearch }) => {
                         <button class="margin-left-2rem button is-primary">Add Cat</button>
                     </Link>}
             </div>
+            <Link to="/cart" className="cart-box">
+                <i className="fas fa-shopping-cart"></i>
+
+                <span className="cart-num">
+                    ({cartNum})
+                </span>
+            </Link>
         </div>
     );
 }

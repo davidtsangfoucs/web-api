@@ -146,7 +146,9 @@ const Header = () => {
                                                     className="button is-primary"
                                                     onClick={() => {
                                                         localStorage.removeItem('auth-token'); // This will log out the user
-
+                                                        localStorage.removeItem('premission');
+                                                        localStorage.removeItem('user-id');
+                                                        localStorage.removeItem('obj-id');
                                                         // Use the navigate function to navigate to home page
                                                         navigate('/');
                                                         window.location.reload(); // This will refresh the page to reflect the change

@@ -59,6 +59,8 @@ const LoginForm = () => {
                 // Set the JWT to localStorage
                 localStorage.setItem('auth-token', registrationResponse.data.token);
                 localStorage.setItem('premission', "Public User");
+                localStorage.setItem('user-id', registrationResponse.data.employeeID);
+                localStorage.setItem('obj-id', registrationResponse.data._id);
 
                 navigate('/')
 
@@ -72,7 +74,8 @@ const LoginForm = () => {
                 // Set the JWT to localStorage
                 localStorage.setItem('auth-token', UserData.token);
                 localStorage.setItem('premission', UserData.employee.premission);
-
+                localStorage.setItem('user-id', UserData.employee.employeeID);
+                localStorage.setItem('obj-id', UserData.employee._id);
                 navigate('/')
             }
         } catch (err) {

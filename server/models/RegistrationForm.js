@@ -25,16 +25,20 @@ const registrationSchema = new Schema({
         type: String,
         required: true
     },
+    cartNum: {
+        type: Number,
+        required: false
+    },
     failedAttempts: {
         type: Number,
         required: true,
         default: 0
-      },
-      lastFailedAttempt: {
+    },
+    lastFailedAttempt: {
         type: Date,
         required: true,
         default: Date.now
-      }
+    }
 });
 
 // Hash passwords before saving

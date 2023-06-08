@@ -260,6 +260,19 @@ $primary-color: #282c34;
 }
 
 .cat-product {
+
+  .add-cart {
+    position: absolute;
+    z-index: 99;
+    margin: 7px;
+    font-size: 16px;
+    color: white;
+    background-color: red;
+    border-color: red;
+
+    cursor: pointer;
+  }
+
   .container {
     .dis-flex {
       display: flex;
