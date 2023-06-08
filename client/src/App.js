@@ -11,6 +11,7 @@ import ProtectedRoute from './component/ProtectedRoute';
 import { useEffect } from 'react';
 import AutoLogout from './component/AutoLogout';
 import ManageAccountsPage from './page/ManageAccountsPage';
+import ManageCatsPage from './page/ManageCatsPage';
 
 function App() {
   const token = localStorage.getItem('auth-token');
@@ -31,6 +32,7 @@ function App() {
           <Route path="/registration" element={<><RegistrationPage /><AutoLogout /></>} />
           {token && premission === 'Admin' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
           {token && premission === 'Admin' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && premission === 'Admin' && <Route path="/manage-cats" element={<ProtectedRoute><ManageCatsPage /><AutoLogout /></ProtectedRoute>} />}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

@@ -296,3 +296,21 @@ module.exports.addCat = async (req, res) => {
   }
 };
 
+// updateCat
+module.exports.updateCat = async (req, res) => {
+  try {
+    const updatedCat = await Cat.findByIdAndUpdate(req.params.catId, req.body, { new: true });
+    res.json(updatedCat);
+  } catch (error) {
+    res.status(500).send('Error updating cat data: ' + error);
+  }
+};
+
+module.exports.deleteCat = async (req, res) => {
+  try {
+    const deletedCat = await Cat.findByIdAndRemove(req.params.catId);
+    res.json(deletedCat);
+  } catch (error) {
+    res.status(500).send('Error deleting cat data: ' + error);
+  }
+};
