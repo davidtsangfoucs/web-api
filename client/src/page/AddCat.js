@@ -14,14 +14,41 @@ const AddCat = () => {
         ageUnit: 'Year'
     });
 
- 
+    const [imageSrc, setImageSrc] = useState();
+    const [uploadData, setUploadData] = useState();
+
+
     const handleChange = e => {
         setCat({ ...cat, [e.target.name]: e.target.value });
     };
-    const handleSubmit = e => {
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+
+        // handle image 
+        const form = e.currentTarget;
+        const fileInput = Array.from(form.elements).find(({ name }) => name === 'file')
+        const formData = new FormData
+
+        for (const file of fileInput.files) {
+            formData.append('file', file)
+        }
+
+        formData.append('upload_preset', 'web-api')
+
+        const data = await fetch('https://api.cloudinary.com/v1_1/dhhm4o35a/image/upload', {
+            method: 'POST',
+            body: formData
+        }).then(r => r.json());
+        console.log('data', data)
+
+
+
+        // handle data 
         cat.age = cat.age + " " + cat.ageUnit;
+        cat.image = data.url;
 
         axios.post('/add-cat', cat)
             .then(response => {
@@ -44,13 +71,24 @@ const AddCat = () => {
             });
     };
 
+    function handleOnChange(changeEvent) {
+        const reader = new FileReader();
+
+        reader.onload = function (onLoadEvent) {
+            setImageSrc(onLoadEvent.target.result);
+            setUploadData(undefined);
+        }
+
+        reader.readAsDataURL(changeEvent.target.files[0]);
+    }
+
 
     return (
 
         <div className="add-cat">
             <Header></Header>
             <div className="container">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} >
                     <div className="columns">
                         <div className="column">
                             <div className="field">
@@ -97,9 +135,14 @@ const AddCat = () => {
                             </div>
                             <div className="field">
                                 <label className="label">Image URL</label>
-                                <div className="control">
+                                {/* <div className="control">
                                     <input className="input" type="text" name="image" value={cat.image} onChange={handleChange} required />
-                                </div>
+                                </div> */}
+                                <p>
+                                    <input onChange={handleOnChange} type="file" name="file" />
+                                </p>
+
+                                <img src={imageSrc} />
                             </div>
                         </div>
                     </div>

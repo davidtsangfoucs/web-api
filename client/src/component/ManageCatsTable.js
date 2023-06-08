@@ -10,6 +10,8 @@ const ManageCatsTable = () => {
     const [editedData, setEditedData] = useState({});
     const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
     const [deleteCatId, setDeleteCatId] = useState('');
+    const [imageSrc, setImageSrc] = useState();
+    const [uploadData, setUploadData] = useState();
 
     useEffect(() => {
         fetchCatData();
@@ -29,8 +31,29 @@ const ManageCatsTable = () => {
         setEditedData({ catId, ...value });
     };
 
-    const handleSave = async () => {
+    const handleSave = async (e) => {
         try {
+
+            // handles new img 
+
+            // handle image 
+            const fileInput = document.getElementsByName('file')
+            const formData = new FormData
+
+            for (const file of fileInput[0].files) {
+                formData.append('file', file)
+            }
+
+            formData.append('upload_preset', 'web-api')
+
+            const data = await fetch('https://api.cloudinary.com/v1_1/dhhm4o35a/image/upload', {
+                method: 'POST',
+                body: formData
+            }).then(r => r.json());
+            console.log('data', data)
+
+            editedData.image = data.url;
+            // handles new data 
             const { catId, ...updatedData } = editedData;
             await axios.put(`/update-cats/${catId}`, updatedData);
             setEditMode(false);
@@ -73,6 +96,19 @@ const ManageCatsTable = () => {
             [field]: event.target.value,
         }));
     };
+
+
+    function handleOnChange(changeEvent) {
+        const reader = new FileReader();
+
+        reader.onload = function (onLoadEvent) {
+            setImageSrc(onLoadEvent.target.result);
+            setUploadData(undefined);
+        }
+
+        reader.readAsDataURL(changeEvent.target.files[0]);
+    }
+
 
     return (
         <div className='container'>
@@ -127,7 +163,7 @@ const ManageCatsTable = () => {
                             )}</td>
                             <td>{editMode && editedData.catId === cat._id ? (
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={editedData.age || ''}
                                     onChange={(event) => handleInputChange(event, 'age')}
                                 />
@@ -152,18 +188,27 @@ const ManageCatsTable = () => {
                                 cat.location
                             )}</td>
                             <td>{editMode && editedData.catId === cat._id ? (
-                                <input
-                                    type="text"
-                                    value={editedData.image || ''}
-                                    onChange={(event) => handleInputChange(event, 'image')}
-                                />
+                                <div className="">
+                                    <input
+                                        type="text"
+                                        value={editedData.image || ''}
+                                        onChange={(event) => handleInputChange(event, 'image')}
+                                    />
+                                    <p>
+                                        <input onChange={handleOnChange} type="file" name="file" />
+                                    </p>
+                                    <img src={imageSrc} />
+                                </div>
+
                             ) : (
-                                cat.image
+                                <div className="img-size-200px">
+                                    <img src={cat.image} alt={editedData.name} />
+                                </div>
                             )}</td>
                             <td>
                                 {editMode && editedData.catId === cat._id ? (
                                     <>
-                                        <button className="icon is-small" onClick={handleSave}>
+                                        <button className="icon is-small" onClick={(e) => handleSave(e)}>
                                             <FontAwesomeIcon icon={faCheck} />
                                         </button>
                                         <button className="icon is-small" onClick={handleCancel}>
