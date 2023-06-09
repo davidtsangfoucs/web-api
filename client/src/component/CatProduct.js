@@ -31,10 +31,12 @@ const CatProduct = () => {
         }
     }, [userId]);
 
+    // get the init cart number of db 
     const initCartNum = async () => {
         try {
             const res = await axios.get(`${baseURL}/get-employees-accounts/${userId}`);
-            const carts = res.data.employee.cartNum ? res.data.employee.cartNum + 1 : 1;
+            const carts = res.data.employee.cartNum ? res.data.employee.cartNum  : 0;
+            setClickedCards(res.data.employee.clickedCards);
             setCartNum(carts);
         } catch (error) {
             console.error('Error while fetching cart information:', error);
@@ -64,13 +66,20 @@ const CatProduct = () => {
         }
 
         try {
-            await axios.put(`${baseURL}/update-employees-accounts/${objId}`, { cartNum });
-            setCartNum(cartNum + 1);
-            setClickedCards((prevClickedCards) => [...prevClickedCards, catId]);
+            const updatedClickedCards = [...clickedCards, catId]; // Create the updated clickedCards array
+
+            await setClickedCards(updatedClickedCards); // Update the clickedCards state and wait for it to complete
+
+            await axios.put(`${baseURL}/update-employees-accounts/${objId}`, { cartNum: cartNum + 1, clickedCards: updatedClickedCards }); // Use the updated clickedCards array
+
+            setCartNum(cartNum + 1); // Update the cartNum state
+
         } catch (error) {
             console.error('Error while updating cartNum:', error);
         }
     };
+
+
 
     return (
         <div className="cat-product">

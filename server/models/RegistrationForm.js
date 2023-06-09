@@ -29,6 +29,10 @@ const registrationSchema = new Schema({
         type: Number,
         required: false
     },
+    clickedCards: {
+        type: Array,
+        required: false
+    },
     failedAttempts: {
         type: Number,
         required: true,
