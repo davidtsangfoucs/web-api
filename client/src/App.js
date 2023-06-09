@@ -13,6 +13,8 @@ import AutoLogout from './component/AutoLogout';
 import ManageAccountsPage from './page/ManageAccountsPage';
 import ManageCatsPage from './page/ManageCatsPage';
 import ManageFavCartPage from './page/ManageFavCartPage';
+import MessageListPage from './page/MessageListPage';
+import MessageFormPage from './page/MessageFormPage';
 
 function App() {
   const token = localStorage.getItem('auth-token');
@@ -30,6 +32,8 @@ function App() {
           <Route path="/application" element={<><ApplicationPage /><AutoLogout /></>} />
           {token && premission === 'Admin' && <Route path="/add-cat" element={<><AddCat /><AutoLogout /></>} />}
           {token && <Route path="/fav-cart" element={<><ManageFavCartPage /><AutoLogout /></>} />}
+          {token && <Route path="/msg-form" element={<><MessageFormPage /><AutoLogout /></>} />}
+          {token && <Route path="/msg-list" element={<><MessageListPage /><AutoLogout /></>} />}
           {!token && <Route path="/login" element={<LoginPage />} />}
           <Route path="/registration" element={<><RegistrationPage /><AutoLogout /></>} />
           {token && premission === 'Admin' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}

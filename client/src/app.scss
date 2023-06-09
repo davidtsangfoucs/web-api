@@ -273,6 +273,20 @@ $primary-color: #282c34;
     cursor: pointer;
   }
 
+  .msg-staff {
+    position: absolute;
+    /* right: auto; */
+    z-index: 99;
+    margin: 7px;
+    font-size: 16px;
+    cursor: pointer;
+    right: 1px;
+    bottom: 1px;
+    font-size: 20px;
+    border-radius: 15px;
+    padding: 3px 12px;
+  }
+
   .container {
     .dis-flex {
       display: flex;
@@ -310,6 +324,8 @@ $primary-color: #282c34;
               }
             }
           }
+
+
 
           .card-content {
             .media {

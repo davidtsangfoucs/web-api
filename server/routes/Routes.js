@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount, getRegisterAcc, verifyIdToken, getCats, addCat, updateCat, deleteCat, getFavCats, deleteFavCat } = require("../controllers/Controller");
+const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount, getRegisterAcc, verifyIdToken, getCats, addCat, updateCat, deleteCat, getFavCats, deleteFavCat, createMessage, getMessages, deleteMessage } = require("../controllers/Controller");
 
 const router = Router()
 
@@ -36,6 +36,13 @@ router.delete('/delete-cats/:catId', deleteCat);
 // cartNum
 router.get('/get-fav-cats/:employeeID', getFavCats);
 router.delete('/delete-fav-cats/:employeeID/:catID', deleteFavCat);
+
+
+// msg routes.js
+router.post('/send-messages', createMessage);
+router.get('/get-messages', getMessages);
+router.delete('/delete-messages/:id', deleteMessage);
+
 
 
 module.exports = router;

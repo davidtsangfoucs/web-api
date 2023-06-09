@@ -35,7 +35,7 @@ const CatProduct = () => {
     const initCartNum = async () => {
         try {
             const res = await axios.get(`${baseURL}/get-employees-accounts/${userId}`);
-            const carts = res.data.employee.cartNum ? res.data.employee.cartNum  : 0;
+            const carts = res.data.employee.cartNum ? res.data.employee.cartNum : 0;
             setClickedCards(res.data.employee.clickedCards);
             setCartNum(carts);
         } catch (error) {
@@ -97,6 +97,12 @@ const CatProduct = () => {
                                     className={`add-cart ${clickedCards.includes(cat.id) ? 'clicked' : ''}`}
                                 >
                                     <i className="fas fa-heart"></i>
+                                </button>
+                                <button
+                                    onClick={(e) => { updateCartNum(e, cat.id) }}
+                                    className={`msg-staff ${clickedCards.includes(cat.id) ? 'clicked' : ''}`}
+                                >
+                               <i class="fa-solid fa-message"></i>
                                 </button>
                                 <div className="card-image">
                                     <figure className="image is-4by3">

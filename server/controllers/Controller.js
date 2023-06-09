@@ -1,6 +1,7 @@
 const RegistrationFormModel = require('../models/RegistrationForm')
 const ApplicationFormModel = require('../models/ApplicationForm')
 const Employee = require('../models/Employee')
+const Message = require('../models/MessageSchema');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Cat = require('../models/CatSchema'); // Path to your Cat model file
@@ -370,3 +371,42 @@ module.exports.deleteFavCat = async (req, res) => {
     res.status(500).json({ error: 'Server error, deleteFavCat' });
   }
 };
+
+// MessageController.js
+
+
+exports.createMessage = async (req, res) => {
+  const { sender, receiver, content } = req.body;
+
+  try {
+    const message = new Message({ sender, receiver, content });
+    await message.save();
+    res.status(201).json({ message: 'Message sent successfully!', data: message });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while sending the message.' });
+  }
+};
+
+
+exports.getMessages = async (req, res) => {
+  try {
+    const messages = await Message.find().populate('sender');
+    res.status(200).json({ data: messages });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while fetching messages.' });
+  }
+};
+
+
+exports.deleteMessage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Message.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Message deleted successfully!' });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while deleting the message.' });
+  }
+};
+
+
