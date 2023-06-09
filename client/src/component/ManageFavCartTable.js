@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
 import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
+import UseAuth from './UseAuth';
 
 const ManageCatsTable = () => {
     const [catData, setCatData] = useState([]);
@@ -13,52 +14,31 @@ const ManageCatsTable = () => {
     const [imageSrc, setImageSrc] = useState();
     const [uploadData, setUploadData] = useState([]);
 
-    useEffect(() => {
-        fetchCatData();
-    }, []);
+    const { isLoggedIn, premission, userId, objId } = UseAuth();
 
-    const fetchCatData = async () => {
+
+    useEffect(() => {
+        if (userId) {
+            fetchCatData(userId);
+        }
+    }, [userId]);
+
+    const fetchCatData = async (userId) => {
         try {
-            const response = await axios.get(`${baseURL}/get-cats`);
-            setCatData(response.data);
+            const favCatsResponse = await axios.get(`${baseURL}/get-fav-cats/${userId}`);
+            const favCatIds = favCatsResponse.data.clickedCards;
+
+            const catsResponse = await axios.get(`${baseURL}/get-cats`);
+            const filteredCats = catsResponse.data.filter((cat) => favCatIds.includes(cat._id));
+
+            setCatData(filteredCats);
         } catch (error) {
             console.error('Error fetching cat data:', error);
         }
     };
 
-    const handleUpdate = (catId, value) => {
-        setEditMode(true);
-        setEditedData({ catId, ...value });
-    };
 
-    const handleSave = async (e) => {
-        try {
-            // Handle image upload
-            const fileInput = document.getElementsByName('file');
-            const formData = new FormData();
 
-            for (const file of fileInput[0].files) {
-                formData.append('file', file);
-            }
-
-            formData.append('upload_preset', 'web-api');
-
-            const data = await fetch('https://api.cloudinary.com/v1_1/dhhm4o35a/image/upload', {
-                method: 'POST',
-                body: formData,
-            }).then((r) => r.json());
-
-            editedData.image = data.url;
-
-            const { catId, ...updatedData } = editedData;
-            await axios.put(`/update-cats/${catId}`, updatedData);
-            setEditMode(false);
-            setEditedData({});
-            fetchCatData();
-        } catch (error) {
-            console.error('Error updating cat:', error);
-        }
-    };
 
     const handleCancel = () => {
         setEditMode(false);
@@ -71,9 +51,10 @@ const ManageCatsTable = () => {
     };
 
     const confirmDeleteAction = async () => {
+
         try {
-            await axios.delete(`/delete-cats/${deleteCatId}`);
-            await axios.delete(`/delete-fav-cat/${deleteCatId}`);
+            // await axios.delete(`/delete-cats/${deleteCatId}`);
+            await axios.delete(`/delete-fav-cats/${userId}/${deleteCatId}`);
             setCatData((prevData) => prevData.filter((cat) => cat._id !== deleteCatId));
             setDeleteConfirmationOpen(false);
             setDeleteCatId('');
@@ -81,6 +62,8 @@ const ManageCatsTable = () => {
             console.error('Error deleting cat:', error);
         }
     };
+
+
 
     const cancelDeleteAction = () => {
         setDeleteConfirmationOpen(false);
@@ -218,18 +201,14 @@ const ManageCatsTable = () => {
                             <td>
                                 {editMode && editedData.catId === cat._id ? (
                                     <>
-                                        <button className="icon is-small" onClick={(e) => handleSave(e)}>
-                                            <FontAwesomeIcon icon={faCheck} />
-                                        </button>
+
                                         <button className="icon is-small" onClick={handleCancel}>
                                             <FontAwesomeIcon icon={faTimes} />
                                         </button>
                                     </>
                                 ) : (
                                     <>
-                                        {/* <button className="icon is-small" onClick={() => handleUpdate(cat._id, cat)}>
-                                            <FontAwesomeIcon icon={faEdit} />
-                                        </button> */}
+
                                         <button className="icon is-small" onClick={() => handleDelete(cat._id)}>
                                             <FontAwesomeIcon icon={faTrash} />
                                         </button>

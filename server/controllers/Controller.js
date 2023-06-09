@@ -316,3 +316,57 @@ module.exports.deleteCat = async (req, res) => {
     res.status(500).send('Error deleting cat data: ' + error);
   }
 };
+
+
+// get fav cats
+module.exports.getFavCats = async (req, res) => {
+  const { employeeID } = req.params;
+
+  try {
+    const employee = await RegistrationFormModel.findOne({ employeeID });
+
+    if (employee) {
+      const clickedCards = employee.clickedCards;
+      res.json({ clickedCards });
+    } else {
+      // Handle the case when the employee is not found
+      res.status(404).json({ error: 'Employee not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error, getFavCats' });
+  }
+};
+
+module.exports.deleteFavCat = async (req, res) => {
+  const { employeeID, catID } = req.params;
+
+  try {
+    const employee = await RegistrationFormModel.findOne({ employeeID });
+
+    if (!employee) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+
+    // Find the index of the cat ID in the clickedCards array
+    const catIndex = employee.clickedCards.indexOf(catID);
+
+    // Subtract 1 from the cartNum
+    employee.cartNum = employee.cartNum - 1;
+
+    if (catIndex === -1) {
+      return res.status(404).json({ error: 'Cat not found in favorites' });
+    }
+
+    // Remove the cat ID from the clickedCards array
+    employee.clickedCards.splice(catIndex, 1);
+
+    // Save the updated employee document
+    await employee.save();
+
+    res.json({ message: 'Cat removed from favorites' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error, deleteFavCat' });
+  }
+};

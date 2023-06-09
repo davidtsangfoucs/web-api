@@ -63,7 +63,7 @@ const LoginForm = () => {
                 localStorage.setItem('obj-id', registrationResponse.data._id);
 
                 navigate('/')
-
+                window.location.reload();
             } else {
                 // have facebook acc already 
                 // give login state 
@@ -77,6 +77,7 @@ const LoginForm = () => {
                 localStorage.setItem('user-id', UserData.employee.employeeID);
                 localStorage.setItem('obj-id', UserData.employee._id);
                 navigate('/')
+                window.location.reload();
             }
         } catch (err) {
             console.error(err);
