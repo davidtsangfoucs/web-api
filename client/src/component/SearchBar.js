@@ -30,7 +30,7 @@ const SearchBar = ({ search, setSearch, cartNum }) => {
                         <button class="margin-left-2rem button is-primary">Add Cat</button>
                     </Link>}
             </div>
-            <Link to="/cart" className="cart-box">
+            <Link to="/fav-cart" className="cart-box">
                 <i className="fas fa-shopping-cart"></i>
 
                 <span className="cart-num">
