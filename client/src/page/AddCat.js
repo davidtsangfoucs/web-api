@@ -53,6 +53,8 @@ const AddCat = () => {
         axios.post('/add-cat', cat)
             .then(response => {
                 console.log(response.data);
+                // post to social media 
+                
                 alert('Cat created successfully!'); // Show an alert message
                 setTimeout(() => { // Start a timer
                     setCat({ // After 3 seconds, clear the form
@@ -64,6 +66,8 @@ const AddCat = () => {
                         image: '',
                         ageUnit: 'Year'
                     });
+                    setImageSrc('')
+                    window.location.reload();
                 }, 3000);
             })
             .catch(error => {
