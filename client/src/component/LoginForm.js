@@ -157,6 +157,7 @@ const LoginForm = () => {
                 localStorage.setItem('user-id', response.data.employeeID);
                 localStorage.setItem('obj-id', response.data._id);
                 localStorage.setItem('location', response.data.location);
+                localStorage.setItem('user-name', response.data.fullName);
                 // auto logout
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
                 localStorage.setItem('logoutTime', logoutTime.toString());

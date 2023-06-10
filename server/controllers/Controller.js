@@ -92,6 +92,7 @@ module.exports.login = async (req, res) => {
       premission: user.premission,
       employeeID: user.employeeID,
       _id: user._id,
+      fullName: user.fullName,
       location: user.department
     });
 

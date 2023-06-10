@@ -60,18 +60,15 @@ const RegistrationForm = () => {
                 }
                 // Create an object with all the state fields
 
-                let emId = 'A000'
-                // Extract the numerical portion of the application ID
-                const currentCount = parseInt(emId.slice(1)); // Parse the numeric part of the ID
+                // Get the current date and time
+                const currentDate = new Date();
 
-                // Increment the count
-                const newCount = currentCount + 1;
+                // Generate the numeric part of the ID based on the current date and time
+                const numericPart = currentDate.getTime().toString().slice(-4);
 
-                // Pad the count with leading zeros to maintain the desired format
-                const paddedCount = String(newCount).padStart(4, '0');
+                // Generate the new ID
+                const newId = `A${numericPart}`;
 
-                // Generate the new application ID
-                const newId = `A${paddedCount}`;
 
                 const RegisFormData = {
                     fullName,

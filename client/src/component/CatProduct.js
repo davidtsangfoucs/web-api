@@ -137,7 +137,9 @@ const CatProduct = () => {
             {isAdded && <div className="message">You have already added this item to the cart.</div>}
 
             {showPanel && (
-                <MsgPanel userName={userName} objId={objId} closePanel={closeMessagePanel} selectedLocation={selectedLocation}>
+                <MsgPanel userName={userName} objId={objId} 
+                closePanel={closeMessagePanel}
+                 selectedLocation={selectedLocation}>
                     {/* Panel Content */}
                 </MsgPanel>
             )}
