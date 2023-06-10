@@ -25,7 +25,7 @@ const SearchBar = ({ search, setSearch, cartNum }) => {
                     </span>
                 </div>
 
-                {isLoggedIn && premission === 'Admin' &&
+                {isLoggedIn && premission === 'Admin'  || premission === 'Charity Worker' &&
                     <Link to="/add-cat">
                         <button class="margin-left-2rem button is-primary">Add Cat</button>
                     </Link>}

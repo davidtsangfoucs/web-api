@@ -78,6 +78,7 @@ const LoginForm = () => {
                 localStorage.setItem('obj-id', UserData.employee._id);
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
                 localStorage.setItem('logoutTime', logoutTime.toString());
+                alert('Login successfully');
                 navigate('/')
                 window.location.reload();
             }
@@ -150,6 +151,7 @@ const LoginForm = () => {
                 localStorage.setItem('premission', response.data.premission);
                 localStorage.setItem('user-id', response.data.employeeID);
                 localStorage.setItem('obj-id', response.data._id);
+                localStorage.setItem('location', response.data.location);
                 // auto logout
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
                 localStorage.setItem('logoutTime', logoutTime.toString());

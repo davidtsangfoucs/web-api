@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import axios from '../commons/axios';
 import Header from '../component/Header';
 import UseAuth from '../component/UseAuth';
@@ -16,6 +17,15 @@ const AddCat = () => {
 
     const [imageSrc, setImageSrc] = useState();
     const [uploadData, setUploadData] = useState();
+
+    const { isLoggedIn, premission, userId, objId, location } = UseAuth();
+
+
+    useEffect(() => {
+        if (location) {
+            setCat({ location: location })
+        }
+    }, []);
 
 
     const handleChange = e => {
@@ -49,12 +59,13 @@ const AddCat = () => {
         // handle data 
         cat.age = cat.age + " " + cat.ageUnit;
         cat.image = data.url;
+        cat.location = location;
 
         axios.post('/add-cat', cat)
             .then(response => {
                 console.log(response.data);
                 // post to social media 
-                
+
                 alert('Cat created successfully!'); // Show an alert message
                 setTimeout(() => { // Start a timer
                     setCat({ // After 3 seconds, clear the form
@@ -62,7 +73,7 @@ const AddCat = () => {
                         breed: '',
                         age: '',
                         description: '',
-                        location: '',
+                        location: { location },
                         image: '',
                         ageUnit: 'Year'
                     });
@@ -134,7 +145,7 @@ const AddCat = () => {
                             <div className="field">
                                 <label className="label">Location</label>
                                 <div className="control">
-                                    <input className="input" type="text" name="location" value={cat.location} onChange={handleChange} required />
+                                    <input disabled={true} className="input" type="text" name="location" value={location} onChange={handleChange} required />
                                 </div>
                             </div>
                             <div className="field">

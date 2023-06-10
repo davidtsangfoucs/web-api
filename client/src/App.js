@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<><HomePage /><AutoLogout /></>} />
           <Route path="/application" element={<><ApplicationPage /><AutoLogout /></>} />
-          {token && premission === 'Admin' && <Route path="/add-cat" element={<><AddCat /><AutoLogout /></>} />}
+          {token && premission === 'Admin' && premission || 'Charity Worker' && <Route path="/add-cat" element={<><AddCat /><AutoLogout /></>} />}
           {token && <Route path="/fav-cart" element={<><ManageFavCartPage /><AutoLogout /></>} />}
           {token && <Route path="/msg-form" element={<><MessageFormPage /><AutoLogout /></>} />}
           {token && <Route path="/msg-list" element={<><MessageListPage /><AutoLogout /></>} />}

@@ -57,7 +57,14 @@ function GoogleLogin() {
                 // Save the JWT to local storage
                 localStorage.setItem('auth-token', registrationResponse.data.token);
                 localStorage.setItem('premission', "Public User");
+                localStorage.setItem('user-id', response.data.employeeID);
+                localStorage.setItem('employeeID', response.data.employeeID);
+                localStorage.setItem('obj-id', response.data._id);
+                const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
+                localStorage.setItem('logoutTime', logoutTime.toString());
+                alert('Login successfully');
                 navigate('/')
+                window.location.reload();
             } else {
                 // The user already exists
                 let UserData = responseCheckUser.data;
@@ -65,7 +72,14 @@ function GoogleLogin() {
                 // Save the JWT to local storage
                 localStorage.setItem('auth-token', UserData.token);
                 localStorage.setItem('premission', UserData.employee.premission);
+                localStorage.setItem('user-id', UserData.employee.employeeID);
+                localStorage.setItem('employeeID', UserData.employee.employeeID);
+                localStorage.setItem('obj-id', UserData.employee._id);
+                const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
+                localStorage.setItem('logoutTime', logoutTime.toString());
+                alert('Login successfully');
                 navigate('/')
+                window.location.reload();
             }
         } catch (err) {
             console.error(err);
