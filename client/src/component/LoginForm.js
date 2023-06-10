@@ -76,6 +76,8 @@ const LoginForm = () => {
                 localStorage.setItem('premission', UserData.employee.premission);
                 localStorage.setItem('user-id', UserData.employee.employeeID);
                 localStorage.setItem('obj-id', UserData.employee._id);
+                const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
+                localStorage.setItem('logoutTime', logoutTime.toString());
                 navigate('/')
                 window.location.reload();
             }
@@ -146,9 +148,10 @@ const LoginForm = () => {
                 localStorage.setItem('auth-token', response.data.token);
                 localStorage.setItem('employeeID', response.data.employeeID);
                 localStorage.setItem('premission', response.data.premission);
+                localStorage.setItem('user-id', response.data.employeeID);
+                localStorage.setItem('obj-id', response.data._id);
                 // auto logout
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
-                // const logoutTime = Date.now() + 1 * 5 * 1000; // 5 s for demo
                 localStorage.setItem('logoutTime', logoutTime.toString());
                 alert('Login successfully');
                 navigate('/');

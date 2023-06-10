@@ -12,6 +12,7 @@ const CatProduct = () => {
     const [clickedCards, setClickedCards] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
     const [showPanel, setShowPanel] = useState(false); // New state variable
+    const [selectedLocation, setSelectedLocation] = useState(''); // Add selectedLocation state variable
 
     const { isLoggedIn, premission, userId, objId } = UseAuth();
     useEffect(() => {
@@ -81,8 +82,9 @@ const CatProduct = () => {
     };
 
     // Show the panel
-    const showMessagePanel = () => {
+    const showMessagePanel = (cat) => {
         setShowPanel(true);
+        setSelectedLocation(cat.location);
     };
 
     // Close the panel
@@ -104,7 +106,7 @@ const CatProduct = () => {
                                 <button onClick={(e) => { updateCartNum(e, cat.id) }} className={`add-cart ${clickedCards.includes(cat.id) ? 'clicked' : ''}`}>
                                     <i className="fas fa-heart"></i>
                                 </button>
-                                <button onClick={showMessagePanel} className={`msg-staff`}>
+                                <button onClick={() => showMessagePanel(cat)} className={`msg-staff`}>
                                     <i className="fa-solid fa-message"></i>
                                 </button>
                                 <div className="card-image">
@@ -135,7 +137,7 @@ const CatProduct = () => {
             {isAdded && <div className="message">You have already added this item to the cart.</div>}
 
             {showPanel && (
-                <MsgPanel closePanel={closeMessagePanel}>
+                <MsgPanel closePanel={closeMessagePanel} selectedLocation={selectedLocation}>
                     {/* Panel Content */}
                 </MsgPanel>
             )}

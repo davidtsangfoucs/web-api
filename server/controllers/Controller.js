@@ -90,7 +90,8 @@ module.exports.login = async (req, res) => {
     res.json({
       token,
       premission: user.premission,
-      employeeID: user.employeeID
+      employeeID: user.employeeID,
+      _id: user._id
     });
 
   } catch (error) {
