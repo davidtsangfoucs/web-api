@@ -10,6 +10,9 @@ const AutoLogout = () => {
         localStorage.removeItem('premission');
         localStorage.removeItem('user-id');
         localStorage.removeItem('obj-id');
+        localStorage.removeItem('location');
+        localStorage.removeItem('user-name');
+        localStorage.removeItem('logoutTime');
         // Optionally, redirect the user to the login page
         alert('You have been logged out due to inactivity.');
         navigate('/login');

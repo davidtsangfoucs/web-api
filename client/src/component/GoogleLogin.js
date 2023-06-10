@@ -60,6 +60,7 @@ function GoogleLogin() {
                 localStorage.setItem('user-id', response.data.employeeID);
                 localStorage.setItem('employeeID', response.data.employeeID);
                 localStorage.setItem('obj-id', response.data._id);
+                localStorage.setItem('location', response.data.location);
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
                 localStorage.setItem('logoutTime', logoutTime.toString());
                 alert('Login successfully');
@@ -75,6 +76,7 @@ function GoogleLogin() {
                 localStorage.setItem('user-id', UserData.employee.employeeID);
                 localStorage.setItem('employeeID', UserData.employee.employeeID);
                 localStorage.setItem('obj-id', UserData.employee._id);
+                localStorage.setItem('location', response.data.location);
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
                 localStorage.setItem('logoutTime', logoutTime.toString());
                 alert('Login successfully');

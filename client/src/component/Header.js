@@ -11,7 +11,7 @@ const Header = () => {
     // const localEmployeeID = localStorage.getItem('employeeID');
     // const localPremission = localStorage.getItem('premission');
 
-    const { isLoggedIn, premission } = UseAuth();
+    const { isLoggedIn, premission, userName } = UseAuth();
 
 
     return (
@@ -72,6 +72,22 @@ const Header = () => {
 
                                 <div class="field is-grouped">
 
+                                    {
+                                        isLoggedIn && (
+                                            <p class="control">
+                                                <Link to="/msg-list">
+                                                    <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://bulma.io" target="_blank" href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms">
+                                                        <span class="icon">
+                                                            <i class="fa-solid fa-message"></i>
+                                                        </span>
+                                                        <span>
+                                                            Message Box
+                                                        </span>
+                                                    </a>
+                                                </Link>
+                                            </p>
+                                        )
+                                    }
 
                                     {
                                         isLoggedIn && (
@@ -160,7 +176,12 @@ const Header = () => {
                                         isLoggedIn ? (
 
                                             <p className="control">
-                                                <a className='button'> <i class="fa-solid fa-user"></i>  <span> {premission}</span></a>
+                                                <a className='button'>
+                                                    <div className="columns">
+                                                        <div><i class="column fa-solid fa-key"></i> {premission} </div>
+                                                        <div><i class="column fa-solid fa-user"></i>{userName}</div>
+                                                    </div>
+                                                </a>
                                                 <button
                                                     className="button is-primary"
                                                     onClick={() => {
@@ -168,6 +189,9 @@ const Header = () => {
                                                         localStorage.removeItem('premission');
                                                         localStorage.removeItem('user-id');
                                                         localStorage.removeItem('obj-id');
+                                                        localStorage.removeItem('location');
+                                                        localStorage.removeItem('user-name');
+                                                        localStorage.removeItem('logoutTime');
                                                         // Use the navigate function to navigate to home page
                                                         navigate('/');
                                                         window.location.reload(); // This will refresh the page to reflect the change

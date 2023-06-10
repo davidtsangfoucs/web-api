@@ -6,6 +6,7 @@ const UseAuth = () => {
     const [userId, setUserId] = useState(0);
     const [objId, setObjId] = useState(0);
     const [location, setLocation] = useState('');
+    const [userName, setUserName] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('auth-token');
@@ -22,9 +23,12 @@ const UseAuth = () => {
 
         const location = localStorage.getItem('location');
         setLocation(location);
+
+        const userName = localStorage.getItem('user-name');
+        setUserName(userName);
     }, []);
 
-    return { isLoggedIn, premission, userId, objId, location };
+    return { isLoggedIn, premission, userId, objId, location, userName };
 };
 
 export default UseAuth;

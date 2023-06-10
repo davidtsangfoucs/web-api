@@ -61,7 +61,10 @@ const LoginForm = () => {
                 localStorage.setItem('premission', "Public User");
                 localStorage.setItem('user-id', registrationResponse.data.employeeID);
                 localStorage.setItem('obj-id', registrationResponse.data._id);
-
+                localStorage.setItem('user-name', registrationResponse.fullName);
+                localStorage.setItem('location', registrationResponse.location);
+                const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
+                localStorage.setItem('logoutTime', logoutTime.toString());
                 navigate('/')
                 window.location.reload();
             } else {
@@ -76,6 +79,8 @@ const LoginForm = () => {
                 localStorage.setItem('premission', UserData.employee.premission);
                 localStorage.setItem('user-id', UserData.employee.employeeID);
                 localStorage.setItem('obj-id', UserData.employee._id);
+                localStorage.setItem('user-name', UserData.employee.fullName);
+                localStorage.setItem('location', UserData.employee.location);
                 const logoutTime = Date.now() + 60 * 60 * 1000; // 60 minutes
                 localStorage.setItem('logoutTime', logoutTime.toString());
                 alert('Login successfully');
