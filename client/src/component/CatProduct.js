@@ -3,6 +3,7 @@ import axios from '../commons/axios';
 import { baseURL } from '../commons/helper';
 import SearchBar from './SearchBar';
 import UseAuth from './UseAuth';
+import MsgPanel from '../component/MsgPanel';
 
 const CatProduct = () => {
     const [cats, setCats] = useState([]);
@@ -10,6 +11,7 @@ const CatProduct = () => {
     const [cartNum, setCartNum] = useState(0);
     const [clickedCards, setClickedCards] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
+    const [showPanel, setShowPanel] = useState(false); // New state variable
 
     const { isLoggedIn, premission, userId, objId } = UseAuth();
     useEffect(() => {
@@ -43,8 +45,6 @@ const CatProduct = () => {
         }
     };
 
-
-
     const filteredCats = search
         ? cats.filter(
             cat =>
@@ -53,7 +53,6 @@ const CatProduct = () => {
             // cat.description.toLowerCase().includes(search.toLowerCase())
         )
         : cats;
-
 
     // update cart 
     // update toolbox card nums 
@@ -70,16 +69,26 @@ const CatProduct = () => {
 
             await setClickedCards(updatedClickedCards); // Update the clickedCards state and wait for it to complete
 
-            await axios.put(`${baseURL}/update-employees-accounts/${objId}`, { cartNum: cartNum + 1, clickedCards: updatedClickedCards }); // Use the updated clickedCards array
+            await axios.put(`${baseURL}/update-employees-accounts/${objId}`, {
+                cartNum: cartNum + 1,
+                clickedCards: updatedClickedCards,
+            }); // Use the updated clickedCards array
 
             setCartNum(cartNum + 1); // Update the cartNum state
-
         } catch (error) {
             console.error('Error while updating cartNum:', error);
         }
     };
 
+    // Show the panel
+    const showMessagePanel = () => {
+        setShowPanel(true);
+    };
 
+    // Close the panel
+    const closeMessagePanel = () => {
+        setShowPanel(false);
+    };
 
     return (
         <div className="cat-product">
@@ -89,20 +98,14 @@ const CatProduct = () => {
                 </div>
 
                 <div className="columns is-multiline is-mobile">
-                    {filteredCats.map((cat) => (
+                    {filteredCats.map(cat => (
                         <div className="column is-full-mobile is-half-tablet is-one-third-desktop is-one-quarter-widescreen" key={cat.id}>
                             <div className="card">
-                                <button
-                                    onClick={(e) => { updateCartNum(e, cat.id) }}
-                                    className={`add-cart ${clickedCards.includes(cat.id) ? 'clicked' : ''}`}
-                                >
+                                <button onClick={(e) => { updateCartNum(e, cat.id) }} className={`add-cart ${clickedCards.includes(cat.id) ? 'clicked' : ''}`}>
                                     <i className="fas fa-heart"></i>
                                 </button>
-                                <button
-                                    onClick={(e) => { updateCartNum(e, cat.id) }}
-                                    className={`msg-staff ${clickedCards.includes(cat.id) ? 'clicked' : ''}`}
-                                >
-                               <i class="fa-solid fa-message"></i>
+                                <button onClick={showMessagePanel} className={`msg-staff`}>
+                                    <i className="fa-solid fa-message"></i>
                                 </button>
                                 <div className="card-image">
                                     <figure className="image is-4by3">
@@ -119,7 +122,8 @@ const CatProduct = () => {
                                     <div className="content">
                                         {cat.description}
                                         <br />
-                                        <span>Age: {cat.age}</span><br />
+                                        <span>Age: {cat.age}</span>
+                                        <br />
                                         <span>Location: {cat.location}</span>
                                     </div>
                                 </div>
@@ -128,11 +132,15 @@ const CatProduct = () => {
                     ))}
                 </div>
             </div>
-            {isAdded && (
-                <div className="message">You have already added this item to the cart.</div>
+            {isAdded && <div className="message">You have already added this item to the cart.</div>}
+
+            {showPanel && (
+                <MsgPanel closePanel={closeMessagePanel}>
+                    {/* Panel Content */}
+                </MsgPanel>
             )}
         </div>
     );
-}
+};
 
 export default CatProduct;

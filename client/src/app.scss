@@ -380,3 +380,61 @@ $primary-color: #282c34;
 .img-size-200px {
   max-width: 200px
 }
+
+
+// customer panel 
+.panel {
+
+  max-width: 600px;
+}
+
+.customer-panel-msg {
+  max-width: 600px;
+
+  .msg-panel-body {
+    width: 100%;
+
+    textarea {
+      height: 500px;
+    }
+  }
+}
+
+// MsgPanel.scss
+
+// MsgPanel.scss
+
+.msg-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  width: 400px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* padding: 20px; */
+  text-align: center;
+
+  // MsgPanel.scss
+  .panel-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #3273dc;
+    transition: color 0.3s;
+    padding: 15px !important;
+
+    &:hover {
+      color: #276cda;
+    }
+  }
+
+}
+
+.panel-close {
+  padding: 15px !important;
+}
