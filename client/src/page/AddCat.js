@@ -17,6 +17,8 @@ const AddCat = () => {
 
     const [imageSrc, setImageSrc] = useState();
     const [uploadData, setUploadData] = useState();
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [breed, setBreed] = useState('');
 
     const { isLoggedIn, premission, userId, objId, location } = UseAuth();
 
@@ -26,6 +28,43 @@ const AddCat = () => {
             setCat({ location: location })
         }
     }, []);
+
+    // check cat breed using cat API 
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+    };
+
+    const handleBreedDetection = async (e) => {
+
+        e.preventDefault()
+        try {
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            const API_KEY = 'live_TrIi2B4etNkiDY9rWi0ZwPjbnmcymqek1orMpvlXhhCGyCagm1BNTfew7dDiIOmt';
+            const imageURL = `https://www.thesprucepets.com/thmb/uQnGtOt9VQiML2oG2YzAmPErrHo=/5441x0/filters:no_upscale():strip_icc()/all-about-tabby-cats-552489-hero-a23a9118af8c477b914a0a1570d4f787.jpg`;
+
+
+
+            const breedResponse = await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids&include_breeds=true&mime_types=jpg,png&limit=1&page=1&order=random&size=small&sub_id=demo-uniq-id&url=${imageURL}`, {
+                headers: {
+                    'x-api-key': API_KEY,
+                },
+            });
+
+            if (breedResponse.data) {
+                const detectedBreed = breedResponse.data[0].breeds[0].name;
+                setBreed(detectedBreed);
+            } else {
+                setBreed('Breed not found');
+            }
+        } catch (error) {
+            console.error('Error detecting cat breed:', error);
+        }
+    };
+    // end of API call by cat api 
 
 
     const handleChange = e => {
@@ -150,14 +189,28 @@ const AddCat = () => {
                             </div>
                             <div className="field">
                                 <label className="label">Image URL</label>
-                                {/* <div className="control">
-                                    <input className="input" type="text" name="image" value={cat.image} onChange={handleChange} required />
-                                </div> */}
                                 <p>
                                     <input onChange={handleOnChange} type="file" name="file" />
                                 </p>
 
                                 <img src={imageSrc} />
+                            </div>
+                            <div className="field">
+                                <label className="label">Image URL</label>
+                                <div className="control">
+                                    <input className="input" type="url" name="image" value={cat.image} onChange={handleChange} required />
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label className="label">Breed</label>
+                                <div className="control">
+                                    <input className="input" type="text" name="breed" value={breed} disabled />
+                                </div>
+                            </div>
+                            <div className="field">
+                                <div className="control">
+                                    <button onClick={handleBreedDetection} disabled={!cat.image}>Detect Breed</button>
+                                </div>
                             </div>
                         </div>
                     </div>
