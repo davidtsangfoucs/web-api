@@ -191,6 +191,7 @@ const Header = () => {
                                                         localStorage.removeItem('obj-id');
                                                         localStorage.removeItem('location');
                                                         localStorage.removeItem('user-name');
+                                                        localStorage.removeItem('user-email');
                                                         localStorage.removeItem('logoutTime');
                                                         // Use the navigate function to navigate to home page
                                                         navigate('/');

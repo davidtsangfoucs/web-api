@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import axios from '../commons/axios';
 
-const MsgPanel = ({ closePanel, selectedLocation, replyReceiver, replySender, userName, objId, publicUserName }) => {
-    const [sender, setSender] = useState(replySender || objId);
+const MsgPanel = ({ closePanel, selectedLocation, replyReceiver, replySender, userName, objId, publicUserName, userEmail }) => {
+    const [sender, setSender] = useState(replySender || userEmail ? userEmail : objId);
     const [receiver, setReceiver] = useState('');
     const [content, setContent] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -15,10 +15,14 @@ const MsgPanel = ({ closePanel, selectedLocation, replyReceiver, replySender, us
         if (replySender) {
             setSender(replySender)
         }
-
-        if (!sender.trim() || !content.trim()) {
+        if (
+            // !sender?.trim() ||
+            // !content?.trim() ||
+            sender === null ||
+            content === null
+        ) {
             setErrorMessage('Please fill in all fields.');
-            alert("Please fill in all fields")
+            alert('Please fill in all fields');
             return;
         }
 
@@ -30,9 +34,9 @@ const MsgPanel = ({ closePanel, selectedLocation, replyReceiver, replySender, us
                 // successful send msg 
                 alert("Successful Sent Msg")
                 // Clear the form fields
-                setSender('');
-                setReceiver('');
-                setContent('');
+                // setSender('');
+                // setReceiver('');
+                // setContent('');
                 setErrorMessage('');
             } else {
                 // public send to location staff logic 
@@ -41,12 +45,12 @@ const MsgPanel = ({ closePanel, selectedLocation, replyReceiver, replySender, us
                 // successful send msg 
                 alert("Successful Sent Msg")
                 // Clear the form fields
-                setSender('');
-                setReceiver('');
-                setContent('');
+                // setSender('');
+                // setReceiver('');
+                // setContent('');
                 setErrorMessage('');
             }
-
+            window.location.reload();
         } catch (error) {
             console.error('Error sending message:', error);
             setErrorMessage('Error sending message. Please try again later.');
@@ -71,7 +75,7 @@ const MsgPanel = ({ closePanel, selectedLocation, replyReceiver, replySender, us
                                 <a>Forks</a> */}
                             </p>
                             <input
-                                value={publicUserName ? publicUserName : replySender ? replySender : userName}
+                                value={sender ? userEmail : publicUserName ? publicUserName : replySender ? replySender : userName}
                                 onChange={(e) => setSender(e.target.value)}
                                 placeholder="Your Email"
                                 className="input"

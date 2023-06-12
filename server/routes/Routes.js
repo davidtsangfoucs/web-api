@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount, getRegisterAcc, verifyIdToken, getCats, addCat, updateCat, deleteCat, getFavCats, deleteFavCat, createMessage, getMessages, deleteMessage } = require("../controllers/Controller");
+const { createAccount, getEmployee, login, createApplication, getApplicationList, getAccountsList, updateAccount, deleteAccount, getRegisterAcc, verifyIdToken, getCats, addCat, updateCat, deleteCat, getFavCats, deleteFavCat, createMessage, getMessages, deleteMessage, deleteOneMessage } = require("../controllers/Controller");
 
 const router = Router()
 
@@ -42,6 +42,10 @@ router.delete('/delete-fav-cats/:employeeID/:catID', deleteFavCat);
 router.post('/send-messages', createMessage);
 router.get('/get-messages', getMessages);
 router.delete('/delete-messages/:id', deleteMessage);
+
+// msg delete by one msg 
+router.delete('/delete-one-messages/:id', deleteOneMessage);
+
 
 
 

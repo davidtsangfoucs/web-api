@@ -14,7 +14,7 @@ const CatProduct = () => {
     const [showPanel, setShowPanel] = useState(false); // New state variable
     const [selectedLocation, setSelectedLocation] = useState(''); // Add selectedLocation state variable
 
-    const { isLoggedIn, premission, userId, objId, userName } = UseAuth();
+    const { isLoggedIn, premission, userId, objId, userName, userEmail } = UseAuth();
     useEffect(() => {
         axios
             .get('/get-cats')
@@ -137,9 +137,11 @@ const CatProduct = () => {
             {isAdded && <div className="message">You have already added this item to the cart.</div>}
 
             {showPanel && (
-                <MsgPanel userName={userName} objId={objId} 
-                closePanel={closeMessagePanel}
-                 selectedLocation={selectedLocation}>
+                <MsgPanel
+                    userEmail={userEmail}
+                    userName={userName} objId={objId}
+                    closePanel={closeMessagePanel}
+                    selectedLocation={selectedLocation}>
                     {/* Panel Content */}
                 </MsgPanel>
             )}
