@@ -34,6 +34,8 @@ const LoginForm = () => {
                 // Set default values or take alternative actions
             }
 
+
+
             // Check if the response or response.data is undefined or the user does not exist
             if (!responseCheckUser || !responseCheckUser.data) {
                 RegisFormData = {
@@ -41,8 +43,8 @@ const LoginForm = () => {
                     email: res.data.email,
                     password: 'No password number',
                     confirmPassword: 'No password number',
-                    dateOfBirth: res.data.birthday,
-                    gender: res.data.gender,
+                    dateOfBirth: res.data.birthday ? res.data.birthday : 'No password number',
+                    gender: res.data.gender ? res.data.gender : 'No gender',
                     phoneNumber: 'No phone number',
                     address: 'No address number',
                     state: "verification",
@@ -229,7 +231,7 @@ const LoginForm = () => {
             </div>
             <FacebookLogin
                 cssClass="button login-button is-success"
-                appId="6453081621390258"
+                appId="797966805314614"
                 autoLoad={false}
                 fields="name,email,picture"
                 // scope="public_profile,user_gender,user_birthday,user_location,user_friends"

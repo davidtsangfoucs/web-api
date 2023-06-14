@@ -65,6 +65,9 @@ const AddCat = () => {
                 // Post to social media
 
                 alert('Cat created successfully!'); // Show an alert message
+
+                
+                // clean create form data after 3s
                 setTimeout(() => {
                     // Clear the form after 3 seconds
                     setCat({
