@@ -66,7 +66,43 @@ const AddCat = () => {
 
                 alert('Cat created successfully!'); // Show an alert message
 
-                
+                // create a post to my facebook using graph API 
+
+                formData.append('access_token', response.accessToken);
+                axios
+                    .post('https://graph.facebook.com/v13.0/me/photos', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                    .then((response) => {
+                        const photoId = response.data.id;
+                        const message = 'Hello, Facebook!';
+
+                        // Proceed to create the post with the uploaded image
+                        createPostWithImage(photoId, message);
+                    })
+                    .catch((error) => {
+                        console.error('Error uploading image:', error.response.data);
+                    });
+
+                function createPostWithImage(photoId, message) {
+                    axios
+                        .post(
+                            `https://graph.facebook.com/v13.0/me/feed?access_token=${response.accessToken}`,
+                            {
+                                message: message,
+                                attached_media: [{ media_fbid: photoId }],
+                            }
+                        )
+                        .then((response) => {
+                            console.log('Post created successfully:', response.data);
+                        })
+                        .catch((error) => {
+                            console.error('Error creating post:', error.response.data);
+                        });
+                }
+
                 // clean create form data after 3s
                 setTimeout(() => {
                     // Clear the form after 3 seconds
