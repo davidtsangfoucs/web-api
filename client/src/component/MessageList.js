@@ -90,7 +90,7 @@ const MessageList = () => {
     };
 
     const handleDeleteOneData = (id) => {
-        alert('ss')
+        
         confirmDeleteOneMsgAction(id)
         // setDeleteConfirmationOpen(true);
         // setSelectedMessageId(id); // Set the selected message ID

@@ -30,16 +30,16 @@ function App() {
         <Routes>
           <Route path="/" element={<><HomePage /><AutoLogout /></>} />
           <Route path="/application" element={<><ApplicationPage /><AutoLogout /></>} />
-          {token && premission === 'Admin' && premission || 'Charity Worker' && <Route path="/add-cat" element={<><AddCat /><AutoLogout /></>} />}
+          {token && premission === 'Admin' || premission === 'Charity Worker' && <Route path="/add-cat" element={<><AddCat /><AutoLogout /></>} />}
           {/* <Route path="/add-cat"></Route> */}
           {token && <Route path="/fav-cart" element={<><ManageFavCartPage /><AutoLogout /></>} />}
-          {token && premission === 'Admin' && premission || 'Charity Worker' && <Route path="/msg-form" element={<><MessageFormPage /><AutoLogout /></>} />}
-          {token && premission === 'Admin' && premission || 'Charity Worker' && <Route path="/msg-list" element={<><MessageListPage /><AutoLogout /></>} />}
+          {token && <Route path="/msg-form" element={<><MessageFormPage /><AutoLogout /></>} />}
+          {token && <Route path="/msg-list" element={<><MessageListPage /><AutoLogout /></>} />}
           {!token && <Route path="/login" element={<LoginPage />} />}
           <Route path="/registration" element={<><RegistrationPage /><AutoLogout /></>} />
-          {token && premission === 'Admin' && premission || 'Charity Worker' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
-          {token && premission === 'Admin' && premission || 'Charity Worker' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
-          {token && premission === 'Admin' && premission || 'Charity Worker' && <Route path="/manage-cats" element={<ProtectedRoute><ManageCatsPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && premission === 'Admin' || premission === 'Charity Worker' && <Route path="/application-list" element={<ProtectedRoute><ApplicationListPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && premission === 'Admin' || premission === 'Charity Worker' && <Route path="/manage-accounts" element={<ProtectedRoute><ManageAccountsPage /><AutoLogout /></ProtectedRoute>} />}
+          {token && premission === 'Admin' || premission === 'Charity Worker' && <Route path="/manage-cats" element={<ProtectedRoute><ManageCatsPage /><AutoLogout /></ProtectedRoute>} />}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

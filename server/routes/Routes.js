@@ -337,10 +337,34 @@ router.post('/verify-id-token', verifyIdToken);
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Cat'
+ *                type: object
+ *                required:
+ *                  - name
+ *                  - breed
+ *                  - age
+ *                  - ageUnit
+ *                  - description
+ *                  - location
+ *                  - image
+ *                properties:
+ *                  name:
+ *                    type: string
+ *                  breed:
+ *                    type: string
+ *                  age:
+ *                    type: number
+ *                  ageUnit:
+ *                    type: string
+ *                  description:
+ *                    type: string
+ *                  location:
+ *                    type: string
+ *                  image:
+ *                    type: string
  *      '500':
  *        description: Server error
  */
+
 router.get('/get-cats', getCats);
 
 /**
